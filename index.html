@@ -35,7 +35,13 @@
                             300: '#E2CDB5'
                         },
                         roseAccent: '#C96E83',
-                        goldAccent: '#D4A359'
+                        goldAccent: '#D4A359',
+                        terracotta: '#C86D51',
+                        sage: '#4F7766'
+                    },
+                    screens: {
+                        'xs': '360px',
+                        '3xl': '1920px'
                     }
                 }
             }
@@ -43,9 +49,22 @@
     </script>
 
     <style>
-        /* Custom Coffee Cup Cursor (Desktop Devices) */
+        /* Fluid Typography Scale for Mobile -> Tablet -> Desktop -> Ultrawide */
+        .fluid-h1 {
+            font-size: clamp(2.15rem, 5.2vw + 0.5rem, 4.75rem);
+            line-height: 1.08;
+        }
+        .fluid-h2 {
+            font-size: clamp(1.75rem, 3.4vw + 0.5rem, 3.25rem);
+            line-height: 1.15;
+        }
+        .fluid-sub {
+            font-size: clamp(0.95rem, 1.1vw + 0.4rem, 1.2rem);
+        }
+
+        /* Custom Coffee Cup Cursor (Desktop Devices with Mouse) */
         @media (pointer: fine) {
-            body, a, button, input, select {
+            body, a, button, input, select, label {
                 cursor: none !important;
             }
         }
@@ -54,21 +73,79 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             pointer-events: none;
             z-index: 9999;
             transform: translate(-50%, -50%);
-            transition: transform 0.12s cubic-bezier(0.22, 1, 0.36, 1), width 0.2s ease, height 0.2s ease;
-            filter: drop-shadow(0 4px 8px rgba(46, 21, 34, 0.28));
+            transition: transform 0.14s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+            filter: drop-shadow(0 5px 10px rgba(46, 21, 34, 0.28));
+            opacity: 0;
+        }
+
+        #coffee-cursor.active-mouse {
+            opacity: 1;
         }
 
         #coffee-cursor.cursor-hover {
-            transform: translate(-50%, -50%) scale(1.35) rotate(-12deg);
+            transform: translate(-50%, -50%) scale(1.3) rotate(-12deg);
         }
 
         #coffee-cursor.cursor-click {
-            transform: translate(-50%, -50%) scale(0.9) rotate(8deg);
+            transform: translate(-50%, -50%) scale(0.88) rotate(14deg);
+        }
+
+        /* Spoon Tap Animation inside Cursor */
+        #cursor-spoon {
+            transform-origin: 34px 12px;
+            transition: transform 0.12s ease-out;
+        }
+        #coffee-cursor.cursor-click #cursor-spoon {
+            transform: rotate(-28deg) translate(-2px, 2px);
+        }
+
+        /* Mobile / Tablet Touch Coffee Ripple Splash */
+        @keyframes tapCupPop {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(0.5) rotate(-10deg);
+            }
+            50% {
+                opacity: 0.95;
+                transform: translate(-50%, -85%) scale(1.15) rotate(8deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -125%) scale(0.9) rotate(0deg);
+            }
+        }
+        @keyframes ringExpand {
+            0% {
+                transform: translate(-50%, -50%) scale(0.2);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(2.1);
+                opacity: 0;
+            }
+        }
+        .touch-cup-splash {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            width: 34px;
+            height: 34px;
+            animation: tapCupPop 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .touch-ring-splash {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9997;
+            width: 32px;
+            height: 32px;
+            border-radius: 9999px;
+            border: 2px solid #D4A359;
+            animation: ringExpand 0.55s ease-out forwards;
         }
 
         /* Steam animation inside the custom cursor */
@@ -83,8 +160,8 @@
         /* Apple-style Scroll Reveal Transitions */
         .reveal-up {
             opacity: 0;
-            transform: translateY(45px) scale(0.97);
-            transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(40px) scale(0.97);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
         .reveal-up.is-visible {
@@ -120,133 +197,196 @@
         }
     </style>
 </head>
-<body class="bg-cream-50 text-plum-950 font-sans antialiased overflow-x-hidden selection:bg-plum-800 selection:text-white">
+<body class="bg-cream-50 text-plum-950 font-sans antialiased overflow-x-hidden pb-20 md:pb-0 selection:bg-plum-800 selection:text-white">
 
-    <!-- Custom Coffee Cup Mouse Pointer -->
-    <div id="coffee-cursor" class="hidden md:block" aria-hidden="true">
+    <!-- Custom Coffee Cup & Spoon Mouse Pointer (Auto-activates on fine pointer / mouse) -->
+    <div id="coffee-cursor" aria-hidden="true">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
             <!-- Steam -->
-            <path class="cursor-steam-1" d="M18 11C18 8 21 7 21 4" stroke="#D4A359" stroke-width="2.4" stroke-linecap="round"/>
-            <path class="cursor-steam-2" d="M25 10C25 7 28 6 28 3" stroke="#C96E83" stroke-width="2.4" stroke-linecap="round"/>
+            <path class="cursor-steam-1" d="M17 11C17 8 20 7 20 4" stroke="#D4A359" stroke-width="2.2" stroke-linecap="round"/>
+            <path class="cursor-steam-2" d="M24 10C24 7 27 6 27 3" stroke="#C96E83" stroke-width="2.2" stroke-linecap="round"/>
+            <!-- Metal Spoon tapping the rim -->
+            <g id="cursor-spoon">
+                <line x1="39" y1="6" x2="29" y2="17" stroke="#CBD5E1" stroke-width="2.6" stroke-linecap="round"/>
+                <ellipse cx="40" cy="5.5" rx="3.2" ry="2" transform="rotate(-42 40 5.5)" fill="#94A3B8"/>
+            </g>
             <!-- Saucer -->
-            <ellipse cx="22" cy="39" rx="15" ry="3.5" fill="#D4A359"/>
+            <ellipse cx="22" cy="40" rx="15" ry="3.5" fill="#D4A359"/>
             <!-- Cup Handle -->
-            <path d="M33 20H36.5C39.5 20 41.5 22 41.5 25C41.5 28 39.5 30 36.5 30H33" stroke="#5D2E46" stroke-width="3.2" stroke-linecap="round"/>
+            <path d="M33 21H36.5C39.5 21 41.5 23 41.5 26C41.5 29 39.5 31 36.5 31H33" stroke="#5D2E46" stroke-width="3.2" stroke-linecap="round"/>
             <!-- Cup Body -->
-            <path d="M10 17H34V27C34 33.6274 28.6274 39 22 39C15.3726 39 10 33.6274 10 27V17Z" fill="#5D2E46"/>
+            <path d="M10 18H34V28C34 34.6274 28.6274 40 22 40C15.3726 40 10 34.6274 10 28V18Z" fill="#5D2E46"/>
             <!-- Coffee Rim -->
-            <ellipse cx="22" cy="17" rx="12" ry="3" fill="#8C4A27" stroke="#FFFDFB" stroke-width="1.5"/>
+            <ellipse cx="22" cy="18" rx="12" ry="3" fill="#8C4A27" stroke="#FFFDFB" stroke-width="1.5"/>
             <!-- Heart Latte Art -->
-            <path d="M22 28C22 28 17 24.8 17 22.2C17 20.8 18.1 19.8 19.4 19.8C20.3 19.8 21.3 20.3 22 21.2C22.7 20.3 23.7 19.8 24.6 19.8C25.9 19.8 27 20.8 27 22.2C27 24.8 22 28 22 28Z" fill="#F9F0F4"/>
+            <path d="M22 29C22 29 17 25.8 17 23.2C17 21.8 18.1 20.8 19.4 20.8C20.3 20.8 21.3 21.3 22 22.2C22.7 21.3 23.7 20.8 24.6 20.8C25.9 20.8 27 21.8 27 23.2C27 25.8 22 29 22 29Z" fill="#F9F0F4"/>
         </svg>
     </div>
 
-    <!-- Floating Glassmorphism Navigation Bar -->
-    <header class="fixed top-3 left-1/2 -translate-x-1/2 z-50 w-[94%] max-w-6xl">
-        <nav class="bg-cream-50/85 backdrop-blur-xl border border-plum-800/15 shadow-lg shadow-plum-900/5 rounded-full px-4 sm:px-6 py-3 flex items-center justify-between">
+    <!-- Floating Glassmorphism Navigation Bar (Responsive for Mobile, Tablet, Desktop & Ultrawide) -->
+    <header class="fixed top-3 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl">
+        <nav class="bg-cream-50/90 backdrop-blur-xl border border-plum-800/15 shadow-lg shadow-plum-900/5 rounded-full px-3.5 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-2">
             <!-- Brand Logo -->
-            <a href="#home" class="flex items-center gap-2.5 group">
-                <div class="w-9 h-9 rounded-full bg-plum-800 text-cream-50 flex items-center justify-center font-serif font-bold text-lg shadow-inner group-hover:scale-105 transition">
+            <a href="#home" class="flex items-center gap-2.5 group min-h-[44px]">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-plum-800 text-cream-50 flex items-center justify-center font-serif font-bold text-lg shadow-inner group-hover:scale-105 transition flex-shrink-0">
                     H
                 </div>
                 <div>
-                    <span class="font-serif font-bold text-lg tracking-tight text-plum-900 block leading-none">HNS CAFE</span>
-                    <span class="text-[10px] uppercase tracking-widest text-roseAccent font-semibold">Kadayanallur • Women Only</span>
+                    <span class="font-serif font-bold text-base sm:text-lg tracking-tight text-plum-900 block leading-none">HNS CAFE</span>
+                    <span class="text-[9px] sm:text-[10px] uppercase tracking-widest text-roseAccent font-semibold block mt-0.5">Kadayanallur • Women Only</span>
                 </div>
             </a>
 
-            <!-- Desktop Links -->
-            <div class="hidden md:flex items-center gap-7 text-sm font-medium text-plum-900/80">
-                <a href="#experience" class="hover:text-plum-800 transition">The Sanctuary</a>
-                <a href="#menu" class="hover:text-plum-800 transition">Menu & Kcal</a>
-                <a href="#offers" class="hover:text-plum-800 transition">Offers & Loyalty</a>
-                <a href="#visit" class="hover:text-plum-800 transition">Timings & Location</a>
+            <!-- Desktop & Tablet Landscape Links -->
+            <div class="hidden lg:flex items-center gap-7 text-sm font-medium text-plum-900/80">
+                <a href="#experience" class="hover:text-plum-800 transition py-2">The Sanctuary</a>
+                <a href="#menu" class="hover:text-plum-800 transition py-2">Menu & Kcal</a>
+                <a href="#offers" class="hover:text-plum-800 transition py-2">Offers & Loyalty</a>
+                <a href="#visit" class="hover:text-plum-800 transition py-2">Timings & Location</a>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="flex items-center gap-2">
-                <button onclick="openBookingModal('table')" class="bg-plum-800 hover:bg-plum-900 text-white text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2.5 rounded-full shadow-md shadow-plum-800/20 transition transform active:scale-95">
+            <!-- Right Controls: Spoon Clink Audio Toggle + CTA + Mobile Menu Button -->
+            <div class="flex items-center gap-1.5 sm:gap-2.5">
+                <!-- Mug & Spoon Sound Toggle Button (44px+ Touch Target) -->
+                <button id="sound-toggle-btn" onclick="toggleSound()" aria-label="Toggle Mug Clink Sound" title="Toggle Coffee Mug & Spoon Clink Sound" class="w-11 h-11 rounded-full bg-cream-100 hover:bg-cream-200 border border-plum-800/15 text-plum-900 flex items-center justify-center transition active:scale-95">
+                    <span id="sound-icon" class="text-base">🔔</span>
+                </button>
+
+                <!-- Desktop/Tablet Reserve Button -->
+                <button onclick="openBookingModal('table')" class="hidden sm:inline-flex items-center justify-center bg-plum-800 hover:bg-plum-900 text-white text-xs sm:text-sm font-semibold px-4 sm:px-5 min-h-[44px] rounded-full shadow-md shadow-plum-800/20 transition transform active:scale-95">
                     Book Couch / Order
+                </button>
+
+                <!-- Mobile Hamburger Toggle (44px+ Touch Target) -->
+                <button id="mobile-menu-btn" onclick="toggleMobileDrawer()" aria-label="Open Navigation Menu" class="lg:hidden w-11 h-11 rounded-full bg-plum-100 hover:bg-plum-800 hover:text-white text-plum-900 flex items-center justify-center transition">
+                    <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 7h16M4 12h16M4 17h16"/>
+                    </svg>
                 </button>
             </div>
         </nav>
+
+        <!-- Responsive Slide-Down Drawer for Mobile & Tablet Portrait -->
+        <div id="mobile-drawer" class="hidden lg:hidden mt-2 bg-cream-50/95 backdrop-blur-xl border border-plum-800/15 rounded-3xl p-4 shadow-2xl">
+            <div class="flex flex-col space-y-1.5 text-sm font-semibold text-plum-900">
+                <a href="#experience" onclick="closeMobileDrawer()" class="px-4 py-3 rounded-2xl hover:bg-plum-100 transition flex items-center justify-between">
+                    <span>✨ The Women-Only Sanctuary</span>
+                    <span class="text-xs text-plum-800">→</span>
+                </a>
+                <a href="#menu" onclick="closeMobileDrawer()" class="px-4 py-3 rounded-2xl hover:bg-plum-100 transition flex items-center justify-between">
+                    <span>☕ Artisan Menu & Calories</span>
+                    <span class="text-xs text-plum-800">→</span>
+                </a>
+                <a href="#offers" onclick="closeMobileDrawer()" class="px-4 py-3 rounded-2xl hover:bg-plum-100 transition flex items-center justify-between">
+                    <span>🎁 Student Offers & Loyalty Points</span>
+                    <span class="text-xs text-plum-800">→</span>
+                </a>
+                <a href="#visit" onclick="closeMobileDrawer()" class="px-4 py-3 rounded-2xl hover:bg-plum-100 transition flex items-center justify-between">
+                    <span>📍 Kadayanallur Location & QR</span>
+                    <span class="text-xs text-plum-800">→</span>
+                </a>
+                <div class="pt-2 grid grid-cols-2 gap-2">
+                    <button onclick="closeMobileDrawer(); openBookingModal('table')" class="py-3 px-4 rounded-2xl bg-plum-800 text-white text-xs font-bold text-center">
+                        Reserve Couch
+                    </button>
+                    <button onclick="closeMobileDrawer(); openBookingModal('takeaway')" class="py-3 px-4 rounded-2xl bg-cream-200 text-plum-950 text-xs font-bold text-center">
+                        Takeaway Order
+                    </button>
+                </div>
+            </div>
+        </div>
     </header>
 
-    <!-- ==================== 1. HERO SECTION (APPLE-STYLE SCROLL SCALE & PARALLAX) ==================== -->
-    <section id="home" class="relative min-h-screen pt-28 pb-16 flex flex-col justify-between bg-grain overflow-hidden">
-        <!-- Decorative Ambient Blur Blobs -->
-        <div class="absolute top-24 -left-24 w-80 h-80 bg-roseAccent/15 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute bottom-10 -right-24 w-96 h-96 bg-goldAccent/15 rounded-full blur-3xl pointer-events-none"></div>
+    <!-- Sticky Bottom Quick-Action Bar for Mobile Phones -->
+    <div class="fixed bottom-3 left-1/2 -translate-x-1/2 z-40 w-[94%] max-w-md md:hidden">
+        <div class="bg-plum-950/95 backdrop-blur-lg text-cream-50 border border-white/15 rounded-full px-3 py-2 shadow-2xl flex items-center justify-around gap-1">
+            <a href="#menu" class="flex-1 py-2 text-center text-xs font-semibold rounded-full hover:bg-white/10 transition">
+                ☕ Menu
+            </a>
+            <a href="#offers" class="flex-1 py-2 text-center text-xs font-semibold rounded-full hover:bg-white/10 transition">
+                ⭐ Loyalty
+            </a>
+            <button onclick="openBookingModal('table')" class="flex-[1.4] py-2.5 px-3 bg-goldAccent text-plum-950 text-xs font-extrabold rounded-full shadow transition active:scale-95">
+                Book Couch / Order
+            </button>
+        </div>
+    </div>
 
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center z-10 mt-4 sm:mt-8">
+    <!-- ==================== 1. HERO SECTION (APPLE-STYLE SCROLL SCALE & PARALLAX) ==================== -->
+    <section id="home" class="relative min-h-screen pt-24 sm:pt-28 pb-14 sm:pb-16 flex flex-col justify-between bg-grain overflow-hidden">
+        <!-- Decorative Ambient Blur Blobs -->
+        <div class="absolute top-24 -left-24 w-72 sm:w-96 h-72 sm:h-96 bg-roseAccent/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-10 -right-24 w-80 sm:w-[28rem] h-80 sm:h-[28rem] bg-goldAccent/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10 mt-3 sm:mt-8">
             <!-- Status Badge -->
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-plum-100 border border-plum-800/15 text-plum-800 text-xs font-semibold mb-6 reveal-up">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            <div class="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-plum-100 border border-plum-800/15 text-plum-800 text-[11px] sm:text-xs font-semibold mb-5 sm:mb-6 reveal-up">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping flex-shrink-0"></span>
                 <span>Kadayanallur's First 100% Women-Run & Women-Only Dine-In Cafe</span>
             </div>
 
-            <!-- Main Headline -->
-            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl font-extrabold text-plum-950 tracking-tight leading-[1.08] max-w-4xl mx-auto reveal-up">
+            <!-- Main Fluid Headline -->
+            <h1 class="font-serif fluid-h1 font-extrabold text-plum-950 tracking-tight max-w-5xl mx-auto reveal-up">
                 Sip, Unwind & Belong.<br>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-plum-800 via-roseAccent to-goldAccent">
                     Crafted Exclusively for Women.
                 </span>
             </h1>
 
-            <p class="mt-5 text-base sm:text-lg text-plum-900/75 max-w-2xl mx-auto leading-relaxed reveal-up">
+            <p class="mt-4 sm:mt-5 fluid-sub text-plum-900/75 max-w-2xl mx-auto leading-relaxed reveal-up">
                 Frosted-glass privacy couches, authentic homemade snacks, karupatti coffee, and board games in the heart of <strong>Kadayanallur</strong>. Open daily <strong>9:00 AM – 9:30 PM</strong>.
             </p>
 
-            <!-- Primary CTA Hyperlinks / Buttons -->
-            <div class="mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4 reveal-up">
-                <button onclick="openBookingModal('table')" class="px-7 py-3.5 rounded-full bg-plum-800 hover:bg-plum-900 text-white font-semibold text-sm sm:text-base shadow-xl shadow-plum-800/25 transition flex items-center gap-2">
+            <!-- Primary CTA Hyperlinks / Buttons (Touch Friendly 44px+) -->
+            <div class="mt-7 sm:mt-8 flex flex-col xs:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 reveal-up">
+                <button onclick="openBookingModal('table')" class="w-full xs:w-auto px-7 min-h-[48px] rounded-full bg-plum-800 hover:bg-plum-900 text-white font-semibold text-sm sm:text-base shadow-xl shadow-plum-800/25 transition flex items-center justify-center gap-2">
                     <span>Reserve Privacy Couch</span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </button>
-                <a href="#menu" class="px-7 py-3.5 rounded-full bg-white hover:bg-cream-100 text-plum-900 border border-plum-800/20 font-semibold text-sm sm:text-base transition">
+                <a href="#menu" class="w-full xs:w-auto px-7 min-h-[48px] rounded-full bg-white hover:bg-cream-100 text-plum-900 border border-plum-800/20 font-semibold text-sm sm:text-base transition flex items-center justify-center">
                     Explore Menu & Kcal
                 </a>
-                <button onclick="openBookingModal('takeaway')" class="px-6 py-3.5 rounded-full bg-cream-200/70 hover:bg-cream-200 text-plum-900 font-semibold text-sm sm:text-base transition">
+                <button onclick="openBookingModal('takeaway')" class="w-full xs:w-auto px-6 min-h-[48px] rounded-full bg-cream-200/80 hover:bg-cream-200 text-plum-900 font-semibold text-sm sm:text-base transition flex items-center justify-center">
                     Takeaway Window (All)
                 </button>
             </div>
         </div>
 
-        <!-- Apple-Style Scroll-Zoom Showcase Frame (Custom Illustrated Cafe Poster) -->
-        <div id="hero-showcase" class="max-w-5xl mx-auto px-4 sm:px-6 mt-12 w-full transition-transform duration-300 ease-out">
-            <div class="relative rounded-3xl overflow-hidden bg-gradient-to-br from-plum-900 via-plum-800 to-plum-950 p-6 sm:p-10 md:p-12 shadow-2xl border border-white/10 text-cream-50">
-                <div class="grid md:grid-cols-12 gap-8 items-center">
+        <!-- Apple-Style Scroll-Zoom Showcase Frame (Adapts cleanly across Phone, Tablet & Ultrawide) -->
+        <div id="hero-showcase" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 sm:mt-12 w-full transition-transform duration-300 ease-out">
+            <div class="relative rounded-3xl overflow-hidden bg-gradient-to-br from-plum-900 via-plum-800 to-plum-950 p-5 sm:p-9 lg:p-12 shadow-2xl border border-white/10 text-cream-50">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-7 lg:gap-10 items-center">
                     <!-- Poster Left Text -->
-                    <div class="md:col-span-7 space-y-4">
-                        <span class="inline-block px-3 py-1 rounded-full bg-white/10 text-goldAccent text-xs font-bold tracking-wider uppercase">
+                    <div class="md:col-span-7 space-y-4 text-left">
+                        <span class="inline-block px-3 py-1 rounded-full bg-white/10 text-goldAccent text-[11px] sm:text-xs font-bold tracking-wider uppercase">
                             பெண்களுக்கான பிரத்யேக பாதுகாப்பான இடம்
                         </span>
-                        <h2 class="font-serif text-2xl sm:text-4xl font-bold leading-tight">
+                        <h2 class="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight">
                             Zero Outside Gaze. 100% Comfort & Homemade Taste.
                         </h2>
                         <p class="text-cream-100/80 text-sm sm:text-base leading-relaxed">
                             Designed with frosted privacy partitions, L-shaped plush booths, warm pendant lights, and an all-female culinary & hospitality team.
                         </p>
                         <!-- Quick KPI Pills -->
-                        <div class="grid grid-cols-3 gap-3 pt-2">
+                        <div class="grid grid-cols-3 gap-2.5 sm:gap-3 pt-2">
                             <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/10">
-                                <div class="text-xl sm:text-2xl font-serif font-bold text-goldAccent">100%</div>
-                                <div class="text-[11px] text-cream-100/80">Women Staff & Dine-In</div>
+                                <div class="text-lg sm:text-2xl font-serif font-bold text-goldAccent">100%</div>
+                                <div class="text-[10px] sm:text-[11px] text-cream-100/80">Women Staff & Dine-In</div>
                             </div>
                             <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/10">
-                                <div class="text-xl sm:text-2xl font-serif font-bold text-roseAccent">₹20+</div>
-                                <div class="text-[11px] text-cream-100/80">Student Friendly Pricing</div>
+                                <div class="text-lg sm:text-2xl font-serif font-bold text-roseAccent">₹20+</div>
+                                <div class="text-[10px] sm:text-[11px] text-cream-100/80">Student Friendly Pricing</div>
                             </div>
                             <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/10">
-                                <div class="text-xl sm:text-2xl font-serif font-bold text-emerald-300">20</div>
-                                <div class="text-[11px] text-cream-100/80">Cozy Couch Seats</div>
+                                <div class="text-lg sm:text-2xl font-serif font-bold text-emerald-300">20</div>
+                                <div class="text-[10px] sm:text-[11px] text-cream-100/80">Cozy Couch Seats</div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Poster Right Custom SVG Illustration of Cozy Cafe Couch & Treats -->
                     <div class="md:col-span-5 flex justify-center">
-                        <div class="relative w-full max-w-xs aspect-square rounded-3xl bg-cream-100/10 border border-white/15 p-4 flex items-center justify-center animate-float">
+                        <div class="relative w-full max-w-[260px] sm:max-w-xs aspect-square rounded-3xl bg-cream-100/10 border border-white/15 p-4 flex items-center justify-center animate-float">
                             <svg viewBox="0 0 320 320" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <!-- Warm Pendant Lamp -->
                                 <line x1="160" y1="0" x2="160" y2="48" stroke="#D4A359" stroke-width="3"/>
@@ -288,19 +428,18 @@
     </section>
 
     <!-- ==================== 2. INTERACTIVE KPI & APPLE-STYLE FEATURE CARDS ==================== -->
-    <section id="experience" class="py-20 bg-cream-100/70 border-y border-plum-800/10">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="text-center max-w-2xl mx-auto mb-14 reveal-up">
+    <section id="experience" class="py-16 sm:py-20 bg-cream-100/70 border-y border-plum-800/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-14 reveal-up">
                 <span class="text-xs font-bold uppercase tracking-widest text-roseAccent">Why Women Love HNS Cafe</span>
-                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-plum-950 mt-2">Designed Around Your Privacy & Joy.</h2>
+                <h2 class="font-serif fluid-h2 font-bold text-plum-950 mt-2">Designed Around Your Privacy & Joy.</h2>
             </div>
 
-            <!-- Bento Grid Feature Cards -->
-            <div class="grid md:grid-cols-3 gap-6">
+            <!-- Bento Grid Feature Cards (1 col mobile -> 3 col tablet/desktop) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
                 <!-- Card 1: Frosted Privacy -->
-                <div class="bg-white rounded-3xl p-7 shadow-sm border border-plum-800/10 hover:shadow-xl transition reveal-up">
+                <div class="bg-white rounded-3xl p-6 sm:p-7 shadow-sm border border-plum-800/10 hover:shadow-xl transition reveal-up">
                     <div class="w-14 h-14 rounded-2xl bg-plum-100 text-plum-800 flex items-center justify-center mb-5">
-                        <!-- Custom Sketch SVG -->
                         <svg class="w-8 h-8" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="4" y="6" width="24" height="20" rx="4"/>
                             <path d="M16 6V26M4 16H28" stroke-dasharray="3 3"/>
@@ -314,7 +453,7 @@
                 </div>
 
                 <!-- Card 2: Entertainment & Books -->
-                <div class="bg-white rounded-3xl p-7 shadow-sm border border-plum-800/10 hover:shadow-xl transition reveal-up">
+                <div class="bg-white rounded-3xl p-6 sm:p-7 shadow-sm border border-plum-800/10 hover:shadow-xl transition reveal-up">
                     <div class="w-14 h-14 rounded-2xl bg-amber-50 text-goldAccent flex items-center justify-center mb-5">
                         <svg class="w-8 h-8" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="5" y="5" width="22" height="22" rx="4"/>
@@ -332,7 +471,7 @@
                 </div>
 
                 <!-- Card 3: Homemade & Healthy -->
-                <div class="bg-white rounded-3xl p-7 shadow-sm border border-plum-800/10 hover:shadow-xl transition reveal-up">
+                <div class="bg-white rounded-3xl p-6 sm:p-7 shadow-sm border border-plum-800/10 hover:shadow-xl transition reveal-up">
                     <div class="w-14 h-14 rounded-2xl bg-rose-50 text-roseAccent flex items-center justify-center mb-5">
                         <svg class="w-8 h-8" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M6 18C6 23.5228 10.4772 28 16 28C21.5228 28 26 23.5228 26 18H6Z"/>
@@ -347,85 +486,85 @@
             </div>
 
             <!-- Animated KPI Counters Strip -->
-            <div id="kpi-strip" class="mt-10 bg-plum-900 text-cream-50 rounded-3xl p-6 sm:p-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center shadow-lg reveal-up">
+            <div id="kpi-strip" class="mt-8 sm:mt-10 bg-plum-900 text-cream-50 rounded-3xl p-6 sm:p-8 grid grid-cols-2 lg:grid-cols-4 gap-6 text-center shadow-lg reveal-up">
                 <div>
                     <div class="text-3xl sm:text-4xl font-serif font-extrabold text-goldAccent kpi-number" data-target="25">0</div>
-                    <div class="text-xs uppercase tracking-wider text-cream-200/80 mt-1">Homemade Menu Items</div>
+                    <div class="text-[11px] sm:text-xs uppercase tracking-wider text-cream-200/80 mt-1">Homemade Menu Items</div>
                 </div>
                 <div>
                     <div class="text-3xl sm:text-4xl font-serif font-extrabold text-roseAccent kpi-number" data-target="100">0</div>
-                    <div class="text-xs uppercase tracking-wider text-cream-200/80 mt-1">% Women-Led Operations</div>
+                    <div class="text-[11px] sm:text-xs uppercase tracking-wider text-cream-200/80 mt-1">% Women-Led Operations</div>
                 </div>
                 <div>
                     <div class="text-3xl sm:text-4xl font-serif font-extrabold text-emerald-300 kpi-number" data-target="15">0</div>
-                    <div class="text-xs uppercase tracking-wider text-cream-200/80 mt-1">% Student ID Discount</div>
+                    <div class="text-[11px] sm:text-xs uppercase tracking-wider text-cream-200/80 mt-1">% Student ID Discount</div>
                 </div>
                 <div>
                     <div class="text-3xl sm:text-4xl font-serif font-extrabold text-white kpi-number" data-target="500">0</div>
-                    <div class="text-xs uppercase tracking-wider text-cream-200/80 mt-1">₹ Spend = Free Drink</div>
+                    <div class="text-[11px] sm:text-xs uppercase tracking-wider text-cream-200/80 mt-1">₹ Spend = Free Drink</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- ==================== 3. ETSY-INSPIRED ARTISAN CAFE MENU WITH STICKERS, KCAL & PRICES ==================== -->
-    <section id="menu" class="py-20 bg-grain">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <section id="menu" class="py-16 sm:py-20 bg-grain">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Menu Header -->
-            <div class="text-center max-w-2xl mx-auto mb-10 reveal-up">
+            <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-10 reveal-up">
                 <span class="text-xs font-bold uppercase tracking-widest text-plum-800">Freshly Prepared • Transparent Calories</span>
-                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-plum-950 mt-2">HNS Artisan Cafe Menu</h2>
+                <h2 class="font-serif fluid-h2 font-bold text-plum-950 mt-2">HNS Artisan Cafe Menu</h2>
                 <p class="text-sm sm:text-base text-plum-900/70 mt-2">
                     Tap any item to add to your pre-order tray or check nutritional calories (kcal).
                 </p>
             </div>
 
-            <!-- Interactive Category Filter Tabs -->
-            <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10 reveal-up" id="menu-filters">
-                <button data-cat="all" class="filter-btn active px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-plum-800 text-white shadow-md transition">
+            <!-- Interactive Category Filter Tabs (44px+ Touch Friendly) -->
+            <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-8 sm:mb-10 reveal-up" id="menu-filters">
+                <button data-cat="all" class="filter-btn active px-4 sm:px-5 min-h-[44px] rounded-full text-xs sm:text-sm font-semibold bg-plum-800 text-white shadow-md transition">
                     All Items
                 </button>
-                <button data-cat="tea-coffee" class="filter-btn px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-white text-plum-900 border border-plum-800/15 hover:bg-plum-100 transition">
+                <button data-cat="tea-coffee" class="filter-btn px-4 sm:px-5 min-h-[44px] rounded-full text-xs sm:text-sm font-semibold bg-white text-plum-900 border border-plum-800/15 hover:bg-plum-100 transition">
                     ☕ Tea & Coffee
                 </button>
-                <button data-cat="juices" class="filter-btn px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-white text-plum-900 border border-plum-800/15 hover:bg-plum-100 transition">
+                <button data-cat="juices" class="filter-btn px-4 sm:px-5 min-h-[44px] rounded-full text-xs sm:text-sm font-semibold bg-white text-plum-900 border border-plum-800/15 hover:bg-plum-100 transition">
                     🥤 Fresh Juices & Shakes
                 </button>
-                <button data-cat="snacks" class="filter-btn px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-white text-plum-900 border border-plum-800/15 hover:bg-plum-100 transition">
+                <button data-cat="snacks" class="filter-btn px-4 sm:px-5 min-h-[44px] rounded-full text-xs sm:text-sm font-semibold bg-white text-plum-900 border border-plum-800/15 hover:bg-plum-100 transition">
                     🥟 Homemade Snacks
                 </button>
-                <button data-cat="specials" class="filter-btn px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-white text-plum-900 border border-plum-800/15 hover:bg-plum-100 transition">
+                <button data-cat="specials" class="filter-btn px-4 sm:px-5 min-h-[44px] rounded-full text-xs sm:text-sm font-semibold bg-white text-plum-900 border border-plum-800/15 hover:bg-plum-100 transition">
                     🥪 Cafe Specials & Meals
                 </button>
             </div>
 
             <!-- Etsy-Inspired Framed Menu Board -->
-            <div class="bg-cream-100/90 border-2 border-plum-800/20 rounded-[2rem] p-5 sm:p-8 md:p-10 shadow-xl relative">
+            <div class="bg-cream-100/90 border-2 border-plum-800/20 rounded-[1.75rem] sm:rounded-[2rem] p-4 sm:p-8 lg:p-10 shadow-xl relative">
                 <!-- Decorative Corner Flourishes -->
-                <div class="flex items-center justify-between border-b border-dashed border-plum-800/25 pb-4 mb-6">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-dashed border-plum-800/25 pb-4 mb-6">
                     <div>
-                        <span class="font-serif italic text-plum-800 text-lg sm:text-xl font-semibold">Handcrafted Daily in Kadayanallur</span>
+                        <span class="font-serif italic text-plum-800 text-base sm:text-xl font-semibold">Handcrafted Daily in Kadayanallur</span>
                     </div>
-                    <span class="text-xs font-bold bg-plum-800 text-cream-50 px-3 py-1 rounded-full">100% Hygienic & Fresh</span>
+                    <span class="text-[11px] sm:text-xs font-bold bg-plum-800 text-cream-50 px-3 py-1 rounded-full">100% Hygienic & Fresh</span>
                 </div>
 
-                <!-- Menu Grid Container (Populated by JS with Custom SVG Stickers, Kcal & Prices) -->
-                <div id="menu-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+                <!-- Responsive Menu Grid: 1 col mobile -> 2 col tablet -> 3 col desktop -> 4 col ultrawide -->
+                <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4 gap-4 sm:gap-5">
                     <!-- Dynamic Menu Cards Rendered Here -->
                 </div>
 
                 <!-- Selected Pre-Order Tray Summary Bar -->
                 <div id="tray-bar" class="hidden mt-8 bg-plum-900 text-white rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
-                    <div class="flex items-center gap-3">
-                        <span class="w-10 h-10 rounded-full bg-goldAccent text-plum-950 font-bold flex items-center justify-center" id="tray-count">0</span>
+                    <div class="flex items-center gap-3 w-full sm:w-auto">
+                        <span class="w-10 h-10 rounded-full bg-goldAccent text-plum-950 font-bold flex items-center justify-center flex-shrink-0" id="tray-count">0</span>
                         <div>
                             <div class="font-semibold text-sm sm:text-base">Items in Your Pre-Order / Couch Tray</div>
                             <div class="text-xs text-cream-200">Total: <span id="tray-total" class="font-bold text-goldAccent">₹0</span> • Total Energy: <span id="tray-kcal">0 kcal</span></div>
                         </div>
                     </div>
                     <div class="flex items-center gap-2 w-full sm:w-auto">
-                        <button onclick="clearTray()" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-xs font-semibold transition">Clear</button>
-                        <button onclick="openBookingModal('table')" class="flex-1 sm:flex-initial px-5 py-2.5 rounded-full bg-goldAccent hover:bg-amber-400 text-plum-950 text-xs sm:text-sm font-bold transition">
+                        <button onclick="clearTray()" class="px-4 min-h-[44px] rounded-full bg-white/10 hover:bg-white/20 text-xs font-semibold transition">Clear</button>
+                        <button onclick="openBookingModal('table')" class="flex-1 sm:flex-initial px-5 min-h-[44px] rounded-full bg-goldAccent hover:bg-amber-400 text-plum-950 text-xs sm:text-sm font-bold transition">
                             Send with Booking →
                         </button>
                     </div>
@@ -435,16 +574,16 @@
     </section>
 
     <!-- ==================== 4. OFFERS, WORKSHOPS & INTERACTIVE LOYALTY CALCULATOR ==================== -->
-    <section id="offers" class="py-20 bg-plum-950 text-cream-50 relative overflow-hidden">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-            <div class="text-center max-w-2xl mx-auto mb-14 reveal-up">
+    <section id="offers" class="py-16 sm:py-20 bg-plum-950 text-cream-50 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-14 reveal-up">
                 <span class="text-xs font-bold uppercase tracking-widest text-goldAccent">Exclusive Perks & Rewards</span>
-                <h2 class="font-serif text-3xl sm:text-5xl font-bold mt-2">Special Offers & HNS Digital Points</h2>
+                <h2 class="font-serif fluid-h2 font-bold mt-2">Special Offers & HNS Digital Points</h2>
             </div>
 
-            <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
                 <!-- Left 7 Cols: Promo Cards -->
-                <div class="lg:col-span-7 grid sm:grid-cols-2 gap-5">
+                <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                     <!-- Offer 1 -->
                     <div class="bg-white/5 border border-white/10 rounded-3xl p-6 hover:bg-white/10 transition reveal-up">
                         <span class="inline-block px-3 py-1 rounded-full bg-roseAccent/20 text-roseAccent text-xs font-bold mb-3">3:00 PM – 5:00 PM</span>
@@ -475,7 +614,7 @@
                 </div>
 
                 <!-- Right 5 Cols: Interactive Digital Bonus Point Calculator -->
-                <div class="lg:col-span-5 bg-gradient-to-br from-plum-800 to-plum-900 border border-white/15 rounded-3xl p-7 flex flex-col justify-between shadow-2xl reveal-up">
+                <div class="lg:col-span-5 bg-gradient-to-br from-plum-800 to-plum-900 border border-white/15 rounded-3xl p-6 sm:p-7 flex flex-col justify-between shadow-2xl reveal-up">
                     <div>
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-xs font-bold uppercase tracking-wider text-goldAccent">Digital Bonus Point Club</span>
@@ -489,8 +628,8 @@
                                 <span>Monthly Cafe Spend:</span>
                                 <span class="text-goldAccent text-lg" id="spend-display">₹500</span>
                             </div>
-                            <input type="range" id="spend-slider" min="100" max="2000" step="50" value="500" class="w-full accent-goldAccent h-2 bg-plum-950 rounded-lg">
-                            <div class="flex justify-between text-[11px] text-cream-200/60 mt-1">
+                            <input type="range" id="spend-slider" min="100" max="2000" step="50" value="500" class="w-full accent-goldAccent h-3 bg-plum-950 rounded-lg">
+                            <div class="flex justify-between text-[11px] text-cream-200/60 mt-1.5">
                                 <span>₹100</span>
                                 <span>₹500 (50 Pts)</span>
                                 <span>₹1,000 (100 Pts)</span>
@@ -509,7 +648,7 @@
                         </div>
                     </div>
 
-                    <button onclick="openBookingModal('loyalty')" class="mt-6 w-full py-3 rounded-full bg-goldAccent hover:bg-amber-400 text-plum-950 font-bold text-sm transition">
+                    <button onclick="openBookingModal('loyalty')" class="mt-6 w-full min-h-[48px] rounded-full bg-goldAccent hover:bg-amber-400 text-plum-950 font-bold text-sm transition">
                         Join HNS Women's Loyalty Club
                     </button>
                 </div>
@@ -518,18 +657,18 @@
     </section>
 
     <!-- ==================== 5. LOCATION, TIMINGS, SAMPLE QR CODE & CONTACT ==================== -->
-    <section id="visit" class="py-20 bg-cream-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="bg-white rounded-[2rem] border border-plum-800/15 shadow-xl p-6 sm:p-10 md:p-12 reveal-up">
-                <div class="grid lg:grid-cols-12 gap-10 items-center">
+    <section id="visit" class="py-16 sm:py-20 bg-cream-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-[1.75rem] sm:rounded-[2rem] border border-plum-800/15 shadow-xl p-5 sm:p-10 lg:p-12 reveal-up">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
                     <!-- Contact & Timings Info -->
                     <div class="lg:col-span-7 space-y-6">
                         <div>
                             <span class="text-xs font-bold uppercase tracking-widest text-roseAccent">Visit Us in Tenkasi District</span>
-                            <h2 class="font-serif text-3xl sm:text-4xl font-bold text-plum-950 mt-1">Find HNS Cafe, Kadayanallur</h2>
+                            <h2 class="font-serif fluid-h2 font-bold text-plum-950 mt-1">Find HNS Cafe, Kadayanallur</h2>
                         </div>
 
-                        <div class="grid sm:grid-cols-2 gap-4 text-sm">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                             <!-- Location -->
                             <div class="p-4 rounded-2xl bg-cream-100/70 border border-plum-800/10">
                                 <div class="font-bold text-plum-900 flex items-center gap-2">
@@ -550,8 +689,8 @@
                             <div class="p-4 rounded-2xl bg-cream-100/70 border border-plum-800/10">
                                 <div class="font-bold text-plum-900">📞 Contact & WhatsApp</div>
                                 <p class="text-plum-900/75 mt-1">
-                                    <a href="tel:+910000000000" class="hover:text-plum-800 underline">+91 xxxxx xxxxx</a><br>
-                                    <a href="mailto:mail@sample.com" class="hover:text-plum-800 underline">mail@sample.com</a>
+                                    <a href="tel:+910000000000" class="hover:text-plum-800 underline inline-block py-0.5">+91 xxxxx xxxxx</a><br>
+                                    <a href="mailto:mail@sample.com" class="hover:text-plum-800 underline inline-block py-0.5">mail@sample.com</a>
                                 </p>
                             </div>
 
@@ -565,17 +704,17 @@
                             </div>
                         </div>
 
-                        <!-- Online Booking Mode Web Hyperlinks -->
+                        <!-- Online Booking Mode Web Hyperlinks (44px+ Touch Friendly) -->
                         <div class="pt-2">
                             <div class="text-xs font-bold uppercase tracking-wider text-plum-900/60 mb-3">Quick Online Booking & Direct Web Links:</div>
-                            <div class="flex flex-wrap gap-3">
-                                <a href="#book-couch" onclick="event.preventDefault(); openBookingModal('table')" class="px-5 py-2.5 rounded-full bg-plum-800 text-white text-xs sm:text-sm font-semibold hover:bg-plum-900 transition">
+                            <div class="flex flex-wrap gap-2.5 sm:gap-3">
+                                <a href="#book-couch" onclick="event.preventDefault(); openBookingModal('table')" class="px-5 min-h-[44px] inline-flex items-center rounded-full bg-plum-800 text-white text-xs sm:text-sm font-semibold hover:bg-plum-900 transition">
                                     🔗 Book Privacy Couch Online
                                 </a>
-                                <a href="#book-party" onclick="event.preventDefault(); openBookingModal('party')" class="px-5 py-2.5 rounded-full bg-roseAccent text-white text-xs sm:text-sm font-semibold hover:opacity-90 transition">
+                                <a href="#book-party" onclick="event.preventDefault(); openBookingModal('party')" class="px-5 min-h-[44px] inline-flex items-center rounded-full bg-roseAccent text-white text-xs sm:text-sm font-semibold hover:opacity-90 transition">
                                     🔗 Book ₹999 Birthday Pack
                                 </a>
-                                <a href="#order-takeaway" onclick="event.preventDefault(); openBookingModal('takeaway')" class="px-5 py-2.5 rounded-full bg-cream-200 text-plum-950 text-xs sm:text-sm font-semibold hover:bg-cream-300 transition">
+                                <a href="#order-takeaway" onclick="event.preventDefault(); openBookingModal('takeaway')" class="px-5 min-h-[44px] inline-flex items-center rounded-full bg-cream-200 text-plum-950 text-xs sm:text-sm font-semibold hover:bg-cream-300 transition">
                                     🔗 Pre-Order Takeaway
                                 </a>
                             </div>
@@ -625,7 +764,7 @@
                             </div>
 
                             <p class="text-xs text-plum-900/75">Scan to view menu, earn loyalty points, or book a privacy couch instantly.</p>
-                            <button onclick="copyCafeLink()" id="copy-link-btn" class="mt-4 w-full py-2.5 rounded-full bg-plum-800 hover:bg-plum-900 text-white text-xs font-semibold transition">
+                            <button onclick="copyCafeLink()" id="copy-link-btn" class="mt-4 w-full min-h-[44px] rounded-full bg-plum-800 hover:bg-plum-900 text-white text-xs font-semibold transition">
                                 Copy Booking Link
                             </button>
                         </div>
@@ -637,7 +776,7 @@
 
     <!-- Footer -->
     <footer class="bg-plum-950 text-cream-200/70 py-10 border-t border-white/10 text-center text-xs">
-        <div class="max-w-6xl mx-auto px-4">
+        <div class="max-w-7xl mx-auto px-4">
             <div class="font-serif text-lg font-bold text-white mb-1">HNS CAFE — KADAYANALLUR</div>
             <p>Women-Led Hospitality • Strictly Women-Only Dine-In Sanctuary • Takeaway Available for All</p>
             <p class="mt-3 text-cream-200/50">Contact: +91 xxxxx xxxxx | mail@sample.com | Kadayanallur, Tenkasi District</p>
@@ -646,19 +785,19 @@
 
     <!-- ==================== INTERACTIVE BOOKING MODAL (NO ALERT/CONFIRM) ==================== -->
     <div id="booking-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-plum-950/70 backdrop-blur-sm p-4">
-        <div class="bg-cream-50 border border-plum-800/20 rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl relative animate-fadeIn">
-            <button onclick="closeBookingModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-cream-200 hover:bg-cream-300 text-plum-950 flex items-center justify-center font-bold">
+        <div class="bg-cream-50 border border-plum-800/20 rounded-3xl max-w-md w-full p-5 sm:p-7 shadow-2xl relative max-h-[92vh] overflow-y-auto">
+            <button onclick="closeBookingModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-cream-200 hover:bg-cream-300 text-plum-950 flex items-center justify-center font-bold">
                 ✕
             </button>
 
             <span class="text-[11px] font-bold uppercase tracking-widest text-roseAccent" id="modal-badge">Online Reservation</span>
-            <h3 class="font-serif text-2xl font-bold text-plum-950 mt-1" id="modal-title">Reserve Your Privacy Couch</h3>
+            <h3 class="font-serif text-2xl font-bold text-plum-950 mt-1 pr-8" id="modal-title">Reserve Your Privacy Couch</h3>
             <p class="text-xs text-plum-900/70 mt-1" id="modal-subtitle">Dine-in is strictly for women & girls. Takeaway is open to everyone.</p>
 
             <form id="booking-form" onsubmit="submitBooking(event)" class="mt-5 space-y-3.5 text-sm">
                 <div>
                     <label class="block text-xs font-bold text-plum-900 mb-1">Booking Mode</label>
-                    <select id="booking-mode" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-plum-800/20 text-plum-950 focus:outline-none focus:border-plum-800">
+                    <select id="booking-mode" class="w-full px-3.5 min-h-[44px] rounded-xl bg-white border border-plum-800/20 text-plum-950 focus:outline-none focus:border-plum-800">
                         <option value="table">Women-Only Privacy Couch (Dine-In)</option>
                         <option value="party">₹999 Birthday / Kitty Party Pack (5 Women)</option>
                         <option value="takeaway">Takeaway Window Pickup (Open to All)</option>
@@ -666,25 +805,25 @@
                     </select>
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 xs:grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-bold text-plum-900 mb-1">Your Name</label>
-                        <input type="text" id="guest-name" required placeholder="e.g., Priya / Anitha" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-plum-800/20 focus:outline-none focus:border-plum-800">
+                        <input type="text" id="guest-name" required placeholder="e.g., Priya / Anitha" class="w-full px-3.5 min-h-[44px] rounded-xl bg-white border border-plum-800/20 focus:outline-none focus:border-plum-800">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-plum-900 mb-1">WhatsApp Number</label>
-                        <input type="tel" id="guest-phone" required placeholder="+91 xxxxx xxxxx" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-plum-800/20 focus:outline-none focus:border-plum-800">
+                        <input type="tel" id="guest-phone" required placeholder="+91 xxxxx xxxxx" class="w-full px-3.5 min-h-[44px] rounded-xl bg-white border border-plum-800/20 focus:outline-none focus:border-plum-800">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-bold text-plum-900 mb-1">Preferred Time</label>
-                        <input type="time" id="guest-time" value="16:30" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-plum-800/20 focus:outline-none focus:border-plum-800">
+                        <input type="time" id="guest-time" value="16:30" required class="w-full px-3.5 min-h-[44px] rounded-xl bg-white border border-plum-800/20 focus:outline-none focus:border-plum-800">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-plum-900 mb-1">Guests Count</label>
-                        <select id="guest-count" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-plum-800/20 focus:outline-none focus:border-plum-800">
+                        <select id="guest-count" class="w-full px-3.5 min-h-[44px] rounded-xl bg-white border border-plum-800/20 focus:outline-none focus:border-plum-800">
                             <option value="1">1 Guest (Solo Chill)</option>
                             <option value="2" selected>2 Guests</option>
                             <option value="4">3–4 Guests (Booth)</option>
@@ -697,7 +836,7 @@
                     <!-- Shows pre-selected menu items if any -->
                 </div>
 
-                <button type="submit" class="w-full py-3 rounded-full bg-plum-800 hover:bg-plum-900 text-white font-bold text-sm shadow-lg transition">
+                <button type="submit" class="w-full min-h-[48px] rounded-full bg-plum-800 hover:bg-plum-900 text-white font-bold text-sm shadow-lg transition">
                     Confirm Instant Booking
                 </button>
             </form>
@@ -707,13 +846,126 @@
                 <div class="text-2xl">✨☕</div>
                 <div class="font-serif font-bold text-lg">Booking Request Confirmed!</div>
                 <p class="text-xs leading-relaxed" id="confirmation-details"></p>
-                <button onclick="closeBookingModal()" class="mt-2 px-5 py-2 rounded-full bg-emerald-700 text-white text-xs font-semibold">Done</button>
+                <button onclick="closeBookingModal()" class="mt-2 px-6 min-h-[44px] rounded-full bg-emerald-700 text-white text-xs font-semibold">Done</button>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript for Menu Stickers, Custom Cursor, Apple Scroll Motion & Interactive Loyalty -->
+    <!-- JavaScript for Menu Stickers, Web Audio Ceramic Mug Clink, Adaptive Cursor/Touch & Responsive Drawer -->
     <script>
+        // ==================== 0. SYNTHESIZED CERAMIC MUG & METAL SPOON CLINK SOUND (WEB AUDIO API) ====================
+        let soundEnabled = true;
+        let audioCtx = null;
+
+        function playMugSpoonClink() {
+            if (!soundEnabled) return;
+            try {
+                if (!audioCtx) {
+                    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                    audioCtx = new AudioContextClass();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                const now = audioCtx.currentTime;
+                // Slight natural pitch variation (+/- 4%) so repeated clicks feel organic
+                const pitchFactor = 0.96 + Math.random() * 0.08;
+
+                // Ceramic mug harmonic resonant frequencies (in Hz)
+                const partials = [
+                    { freq: 2180 * pitchFactor, gain: 0.22, decay: 0.28, type: 'sine' },
+                    { freq: 3460 * pitchFactor, gain: 0.14, decay: 0.19, type: 'sine' },
+                    { freq: 5240 * pitchFactor, gain: 0.08, decay: 0.11, type: 'triangle' }
+                ];
+
+                partials.forEach(p => {
+                    const osc = audioCtx.createOscillator();
+                    const gainNode = audioCtx.createGain();
+                    osc.type = p.type;
+                    osc.frequency.setValueAtTime(p.freq, now);
+                    // Subtle micro pitch-drop upon metal spoon impact
+                    osc.frequency.exponentialRampToValueAtTime(p.freq * 0.985, now + p.decay);
+
+                    gainNode.gain.setValueAtTime(0.0001, now);
+                    gainNode.gain.linearRampToValueAtTime(p.gain, now + 0.003);
+                    gainNode.gain.exponentialRampToValueAtTime(0.0001, now + p.decay);
+
+                    osc.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + p.decay + 0.02);
+                });
+
+                // Crisp initial metal spoon transient tap
+                const clickOsc = audioCtx.createOscillator();
+                const clickGain = audioCtx.createGain();
+                clickOsc.type = 'triangle';
+                clickOsc.frequency.setValueAtTime(6800 * pitchFactor, now);
+                clickOsc.frequency.exponentialRampToValueAtTime(1400, now + 0.022);
+                clickGain.gain.setValueAtTime(0.16, now);
+                clickGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.024);
+                clickOsc.connect(clickGain);
+                clickGain.connect(audioCtx.destination);
+                clickOsc.start(now);
+                clickOsc.stop(now + 0.03);
+            } catch (err) {
+                // Ignore if browser blocks audio before gesture
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const icon = document.getElementById('sound-icon');
+            icon.textContent = soundEnabled ? '🔔' : '🔕';
+            if (soundEnabled) playMugSpoonClink();
+        }
+
+        // Play ceramic mug & spoon clink on every click/tap anywhere on interactive elements or screen
+        document.addEventListener('pointerdown', (e) => {
+            playMugSpoonClink();
+
+            // On Touch Devices (Mobile / Tablet), spawn an animated coffee cup + ripple splash at tap coordinates
+            if (e.pointerType === 'touch' || e.pointerType === 'pen') {
+                spawnTouchCupSplash(e.clientX, e.clientY);
+            }
+        }, { passive: true });
+
+        function spawnTouchCupSplash(x, y) {
+            const ring = document.createElement('div');
+            ring.className = 'touch-ring-splash';
+            ring.style.left = `${x}px`;
+            ring.style.top = `${y}px`;
+            document.body.appendChild(ring);
+
+            const cup = document.createElement('div');
+            cup.className = 'touch-cup-splash';
+            cup.style.left = `${x}px`;
+            cup.style.top = `${y}px`;
+            cup.innerHTML = `<svg viewBox="0 0 36 36" fill="none">
+                <ellipse cx="18" cy="30" rx="11" ry="2.5" fill="#D4A359"/>
+                <path d="M9 14H27V21C27 26 23 30 18 30C13 30 9 26 9 21V14Z" fill="#5D2E46"/>
+                <path d="M27 16H29.5C31.5 16 33 17.5 33 19.5C33 21.5 31.5 23 29.5 23H27" stroke="#5D2E46" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M18 22C18 22 14.5 19.8 14.5 18C14.5 17 15.3 16.2 16.2 16.2C16.9 16.2 17.5 16.6 18 17.2C18.5 16.6 19.1 16.2 19.8 16.2C20.7 16.2 21.5 17 21.5 18C21.5 19.8 18 22 18 22Z" fill="#FFFDFB"/>
+            </svg>`;
+            document.body.appendChild(cup);
+
+            setTimeout(() => {
+                ring.remove();
+                cup.remove();
+            }, 680);
+        }
+
+        // Mobile Drawer Toggle
+        function toggleMobileDrawer() {
+            const drawer = document.getElementById('mobile-drawer');
+            drawer.classList.toggle('hidden');
+        }
+        function closeMobileDrawer() {
+            const drawer = document.getElementById('mobile-drawer');
+            drawer.classList.add('hidden');
+        }
+
         // 1. Menu Data with Custom Inline SVG Stickers, Kcal & Prices
         const menuItems = [
             {
@@ -875,7 +1127,7 @@
 
                     <div class="flex flex-col items-end justify-between h-full gap-2">
                         <span class="font-serif font-extrabold text-lg text-plum-800">₹${item.price}</span>
-                        <button onclick="addToTray(${item.id})" class="px-3 py-1.5 rounded-full bg-cream-100 hover:bg-plum-800 text-plum-900 hover:text-white text-xs font-bold border border-plum-800/15 transition">
+                        <button onclick="addToTray(${item.id})" class="px-3.5 min-h-[38px] rounded-full bg-cream-100 hover:bg-plum-800 text-plum-900 hover:text-white text-xs font-bold border border-plum-800/15 transition">
                             + Add
                         </button>
                     </div>
@@ -923,16 +1175,23 @@
             document.getElementById('tray-kcal').textContent = `${totalKcal} kcal`;
         }
 
-        // 2. Custom Coffee Cup Pointer Tracking
+        // 2. Adaptive Custom Coffee Cup & Spoon Pointer Tracking (Auto-hides on touchscreens, shows on mouse)
         const cursor = document.getElementById('coffee-cursor');
         if (cursor) {
-            window.addEventListener('mousemove', (e) => {
-                cursor.style.left = `${e.clientX}px`;
-                cursor.style.top = `${e.clientY}px`;
-            });
+            window.addEventListener('pointermove', (e) => {
+                if (e.pointerType === 'mouse') {
+                    cursor.classList.add('active-mouse');
+                    cursor.style.left = `${e.clientX}px`;
+                    cursor.style.top = `${e.clientY}px`;
+                } else {
+                    cursor.classList.remove('active-mouse');
+                }
+            }, { passive: true });
 
-            window.addEventListener('mousedown', () => cursor.classList.add('cursor-click'));
-            window.addEventListener('mouseup', () => cursor.classList.remove('cursor-click'));
+            window.addEventListener('pointerdown', (e) => {
+                if (e.pointerType === 'mouse') cursor.classList.add('cursor-click');
+            }, { passive: true });
+            window.addEventListener('pointerup', () => cursor.classList.remove('cursor-click'), { passive: true });
 
             document.addEventListener('mouseover', (e) => {
                 if (e.target.closest('a, button, input, select')) {
