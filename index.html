@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HNS CAFE — Kadayanallur | Women-Only Cozy Sanctuary & Homemade Cafe</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Playfair Display, Plus Jakarta Sans & Noto Sans Tamil -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', '"Noto Sans Tamil"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        plum: {
+                            950: '#1D0D16',
+                            900: '#2E1522',
+                            800: '#5D2E46',
+                            700: '#7A3E5C',
+                            100: '#F9F0F4',
+                            50: '#FDF8FA'
+                        },
+                        cream: {
+                            50: '#FFFDFB',
+                            100: '#FAF4ED',
+                            200: '#F2E5D5',
+                            300: '#E2CDB5'
+                        },
+                        roseAccent: '#C96E83',
+                        goldAccent: '#D4A359'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Coffee Cup Cursor (Desktop Devices) */
+        @media (pointer: fine) {
+            body, a, button, input, select {
+                cursor: none !important;
+            }
+        }
+
+        #coffee-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 36px;
+            height: 36px;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.12s cubic-bezier(0.22, 1, 0.36, 1), width 0.2s ease, height 0.2s ease;
+            filter: drop-shadow(0 4px 8px rgba(46, 21, 34, 0.28));
+        }
+
+        #coffee-cursor.cursor-hover {
+            transform: translate(-50%, -50%) scale(1.35) rotate(-12deg);
+        }
+
+        #coffee-cursor.cursor-click {
+            transform: translate(-50%, -50%) scale(0.9) rotate(8deg);
+        }
+
+        /* Steam animation inside the custom cursor */
+        @keyframes steamRise {
+            0% { opacity: 0; transform: translateY(2px); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-4px); }
+        }
+        .cursor-steam-1 { animation: steamRise 1.6s infinite ease-in-out; }
+        .cursor-steam-2 { animation: steamRise 1.6s infinite ease-in-out 0.6s; }
+
+        /* Apple-style Scroll Reveal Transitions */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(45px) scale(0.97);
+            transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-up.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Subtle Grain Texture Overlay */
+        .bg-grain {
+            background-image: radial-gradient(rgba(93, 46, 70, 0.06) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        /* Floating gentle animation */
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1.5deg); }
+        }
+        .animate-float {
+            animation: gentleFloat 5s ease-in-out infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF4ED;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #5D2E46;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-cream-50 text-plum-950 font-sans antialiased overflow-x-hidden selection:bg-plum-800 selection:text-white">
+
+    <!-- Custom Coffee Cup Mouse Pointer -->
+    <div id="coffee-cursor" class="hidden md:block" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Steam -->
+            <path class="cursor-steam-1" d="M18 11C18 8 21 7 21 4" stroke="#D4A359" stroke-width="2.4" stroke-linecap="round"/>
+            <path class="cursor-steam-2" d="M25 10C25 7 28 6 28 3" stroke="#C96E83" stroke-width="2.4" stroke-linecap="round"/>
+            <!-- Saucer -->
+            <ellipse cx="22" cy="39" rx="15" ry="3.5" fill="#D4A359"/>
+            <!-- Cup Handle -->
+            <path d="M33 20H36.5C39.5 20 41.5 22 41.5 25C41.5 28 39.5 30 36.5 30H33" stroke="#5D2E46" stroke-width="3.2" stroke-linecap="round"/>
+            <!-- Cup Body -->
+            <path d="M10 17H34V27C34 33.6274 28.6274 39 22 39C15.3726 39 10 33.6274 10 27V17Z" fill="#5D2E46"/>
+            <!-- Coffee Rim -->
+            <ellipse cx="22" cy="17" rx="12" ry="3" fill="#8C4A27" stroke="#FFFDFB" stroke-width="1.5"/>
+            <!-- Heart Latte Art -->
+            <path d="M22 28C22 28 17 24.8 17 22.2C17 20.8 18.1 19.8 19.4 19.8C20.3 19.8 21.3 20.3 22 21.2C22.7 20.3 23.7 19.8 24.6 19.8C25.9 19.8 27 20.8 27 22.2C27 24.8 22 28 22 28Z" fill="#F9F0F4"/>
+        </svg>
+    </div>
+
+    <!-- Floating Glassmorphism Navigation Bar -->
+    <header class="fixed top-3 left-1/2 -translate-x-1/2 z-50 w-[94%] max-w-6xl">
+        <nav class="bg-cream-50/85 backdrop-blur-xl border border-plum-800/15 shadow-lg shadow-plum-900/5 rounded-full px-4 sm:px-6 py-3 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#home" class="flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-full bg-plum-800 text-cream-50 flex items-center justify-center font-serif font-bold text-lg shadow-inner group-hover:scale-105 transition">
+                    H
+                </div>
+                <div>
+                    <span class="font-serif font-bold text-lg tracking-tight text-plum-900 block leading-none">HNS CAFE</span>
+                    <span class="text-[10px] uppercase tracking-widest text-roseAccent font-semibold">Kadayanallur • Women Only</span>
+                </div>
+            </a>
+
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-7 text-sm font-medium text-plum-900/80">
+                <a href="#experience" class="hover:text-plum-800 transition">The Sanctuary</a>
+                <a href="#menu" class="hover:text-plum-800 transition">Menu & Kcal</a>
+                <a href="#offers" class="hover:text-plum-800 transition">Offers & Loyalty</a>
+                <a href="#visit" class="hover:text-plum-800 transition">Timings & Location</a>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-2">
+                <button onclick="openBookingModal('table')" class="bg-plum-800 hover:bg-plum-900 text-white text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2.5 rounded-full shadow-md shadow-plum-800/20 transition transform active:scale-95">
+                    Book Couch / Order
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ==================== 1. HERO SECTION (APPLE-STYLE SCROLL SCALE & PARALLAX) ==================== -->
+    <section id="home" class="relative min-h-screen pt-28 pb-16 flex flex-col justify-between bg-grain overflow-hidden">
+        <!-- Decorative Ambient Blur Blobs -->
+        <div class="absolute top-24 -left-24 w-80 h-80 bg-roseAccent/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-10 -right-24 w-96 h-96 bg-goldAccent/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center z-10 mt-4 sm:mt-8">
+            <!-- Status Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-plum-100 border border-plum-800/15 text-plum-800 text-xs font-semibold mb-6 reveal-up">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                <span>Kadayanallur's First 100% Women-Run & Women-Only Dine-In Cafe</span>
+            </div>
+
+            <!-- Main Headline -->
+            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl font-extrabold text-plum-950 tracking-tight leading-[1.08] max-w-4xl mx-auto reveal-up">
+                Sip, Unwind & Belong.<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-plum-800 via-roseAccent to-goldAccent">
+                    Crafted Exclusively for Women.
+                </span>
+            </h1>
+
+            <p class="mt-5 text-base sm:text-lg text-plum-900/75 max-w-2xl mx-auto leading-relaxed reveal-up">
+                Frosted-glass privacy couches, authentic homemade snacks, karupatti coffee, and board games in the heart of <strong>Kadayanallur</strong>. Open daily <strong>9:00 AM – 9:30 PM</strong>.
+            </p>
+
+            <!-- Primary CTA Hyperlinks / Buttons -->
+            <div class="mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4 reveal-up">
+                <button onclick="openBookingModal('table')" class="px-7 py-3.5 rounded-full bg-plum-800 hover:bg-plum-900 text-white font-semibold text-sm sm:text-base shadow-xl shadow-plum-800/25 transition flex items-center gap-2">
+                    <span>Reserve Privacy Couch</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </button>
+                <a href="#menu" class="px-7 py-3.5 rounded-full bg-white hover:bg-cream-100 text-plum-900 border border-plum-800/20 font-semibold text-sm sm:text-base transition">
+                    Explore Menu & Kcal
+                </a>
+                <button onclick="openBookingModal('takeaway')" class="px-6 py-3.5 rounded-full bg-cream-200/70 hover:bg-cream-200 text-plum-900 font-semibold text-sm sm:text-base transition">
+                    Takeaway Window (All)
+                </button>
+            </div>
+        </div>
+
+        <!-- Apple-Style Scroll-Zoom Showcase Frame (Custom Illustrated Cafe Poster) -->
+        <div id="hero-showcase" class="max-w-5xl mx-auto px-4 sm:px-6 mt-12 w-full transition-transform duration-300 ease-out">
+            <div class="relative rounded-3xl overflow-hidden bg-gradient-to-br from-plum-900 via-plum-800 to-plum-950 p-6 sm:p-10 md:p-12 shadow-2xl border border-white/10 text-cream-50">
+                <div class="grid md:grid-cols-12 gap-8 items-center">
+                    <!-- Poster Left Text -->
+                    <div class="md:col-span-7 space-y-4">
+                        <span class="inline-block px-3 py-1 rounded-full bg-white/10 text-goldAccent text-xs font-bold tracking-wider uppercase">
+                            பெண்களுக்கான பிரத்யேக பாதுகாப்பான இடம்
+                        </span>
+                        <h2 class="font-serif text-2xl sm:text-4xl font-bold leading-tight">
+                            Zero Outside Gaze. 100% Comfort & Homemade Taste.
+                        </h2>
+                        <p class="text-cream-100/80 text-sm sm:text-base leading-relaxed">
+                            Designed with frosted privacy partitions, L-shaped plush booths, warm pendant lights, and an all-female culinary & hospitality team.
+                        </p>
+                        <!-- Quick KPI Pills -->
+                        <div class="grid grid-cols-3 gap-3 pt-2">
+                            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/10">
+                                <div class="text-xl sm:text-2xl font-serif font-bold text-goldAccent">100%</div>
+                                <div class="text-[11px] text-cream-100/80">Women Staff & Dine-In</div>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/10">
+                                <div class="text-xl sm:text-2xl font-serif font-bold text-roseAccent">₹20+</div>
+                                <div class="text-[11px] text-cream-100/80">Student Friendly Pricing</div>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/10">
+                                <div class="text-xl sm:text-2xl font-serif font-bold text-emerald-300">20</div>
+                                <div class="text-[11px] text-cream-100/80">Cozy Couch Seats</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Poster Right Custom SVG Illustration of Cozy Cafe Couch & Treats -->
+                    <div class="md:col-span-5 flex justify-center">
+                        <div class="relative w-full max-w-xs aspect-square rounded-3xl bg-cream-100/10 border border-white/15 p-4 flex items-center justify-center animate-float">
+                            <svg viewBox="0 0 320 320" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Warm Pendant Lamp -->
+                                <line x1="160" y1="0" x2="160" y2="48" stroke="#D4A359" stroke-width="3"/>
+                                <path d="M125 68C125 52 140 44 160 44C180 44 195 52 195 68H125Z" fill="#D4A359"/>
+                                <ellipse cx="160" cy="68" rx="35" ry="6" fill="#FFF3D1"/>
+                                <!-- Soft Light Cone -->
+                                <polygon points="125,68 195,68 250,210 70,210" fill="url(#lampGlow)" opacity="0.25"/>
+                                <defs>
+                                    <linearGradient id="lampGlow" x1="160" y1="68" x2="160" y2="210" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#FFE699"/>
+                                        <stop offset="1" stop-color="#FFE699" stop-opacity="0"/>
+                                    </linearGradient>
+                                </defs>
+                                <!-- Privacy Arch Window -->
+                                <rect x="65" y="85" width="190" height="125" rx="62" fill="#F9F0F4" fill-opacity="0.14" stroke="#E2CDB5" stroke-width="2" stroke-dasharray="6 4"/>
+                                <!-- Plush Privacy Sofa -->
+                                <rect x="55" y="165" width="210" height="65" rx="20" fill="#C96E83"/>
+                                <rect x="45" y="185" width="28" height="55" rx="12" fill="#A64D62"/>
+                                <rect x="247" y="185" width="28" height="55" rx="12" fill="#A64D62"/>
+                                <!-- Cushions -->
+                                <rect x="82" y="175" width="38" height="34" rx="10" fill="#FAF4ED" transform="rotate(-8 82 175)"/>
+                                <rect x="200" y="172" width="38" height="34" rx="10" fill="#D4A359" transform="rotate(8 200 172)"/>
+                                <!-- Wooden Cafe Table -->
+                                <ellipse cx="160" cy="245" rx="68" ry="14" fill="#E2CDB5"/>
+                                <rect x="154" y="255" width="12" height="38" fill="#B89B7A"/>
+                                <ellipse cx="160" cy="293" rx="32" ry="6" fill="#8C7051"/>
+                                <!-- Coffee Cup & Snack Plate on Table -->
+                                <rect x="128" y="226" width="20" height="18" rx="4" fill="#5D2E46"/>
+                                <path d="M135 218C135 214 138 214 138 210" stroke="#FFFDFB" stroke-width="2" stroke-linecap="round"/>
+                                <ellipse cx="182" cy="241" rx="22" ry="5" fill="#FFFDFB"/>
+                                <circle cx="177" cy="236" r="5" fill="#D4A359"/>
+                                <circle cx="187" cy="236" r="5" fill="#C96E83"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 2. INTERACTIVE KPI & APPLE-STYLE FEATURE CARDS ==================== -->
+    <section id="experience" class="py-20 bg-cream-100/70 border-y border-plum-800/10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-2xl mx-auto mb-14 reveal-up">
+                <span class="text-xs font-bold uppercase tracking-widest text-roseAccent">Why Women Love HNS Cafe</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-plum-950 mt-2">Designed Around Your Privacy & Joy.</h2>
+            </div>
+
+            <!-- Bento Grid Feature Cards -->
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Card 1: Frosted Privacy -->
+                <div class="bg-white rounded-3xl p-7 shadow-sm border border-plum-800/10 hover:shadow-xl transition reveal-up">
+                    <div class="w-14 h-14 rounded-2xl bg-plum-100 text-plum-800 flex items-center justify-center mb-5">
+                        <!-- Custom Sketch SVG -->
+                        <svg class="w-8 h-8" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="4" y="6" width="24" height="20" rx="4"/>
+                            <path d="M16 6V26M4 16H28" stroke-dasharray="3 3"/>
+                            <circle cx="10" cy="11" r="2" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-plum-950">Frosted Privacy Couches</h3>
+                    <p class="text-sm text-plum-900/70 mt-2 leading-relaxed">
+                        Opaque frosted glass, bamboo partitions, and plush L-shaped booths ensure complete privacy from the street while you chat with friends.
+                    </p>
+                </div>
+
+                <!-- Card 2: Entertainment & Books -->
+                <div class="bg-white rounded-3xl p-7 shadow-sm border border-plum-800/10 hover:shadow-xl transition reveal-up">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-50 text-goldAccent flex items-center justify-center mb-5">
+                        <svg class="w-8 h-8" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="5" width="22" height="22" rx="4"/>
+                            <circle cx="11" cy="11" r="1.5" fill="currentColor"/>
+                            <circle cx="21" cy="11" r="1.5" fill="currentColor"/>
+                            <circle cx="16" cy="16" r="1.5" fill="currentColor"/>
+                            <circle cx="11" cy="21" r="1.5" fill="currentColor"/>
+                            <circle cx="21" cy="21" r="1.5" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-plum-950">Board Games & Book Corner</h3>
+                    <p class="text-sm text-plum-900/70 mt-2 leading-relaxed">
+                        Play Uno, Jenga, Ludo, and Carrom, enjoy curated music on our 40" Smart TV, or unwind solo in our Tamil novels & sketch corner.
+                    </p>
+                </div>
+
+                <!-- Card 3: Homemade & Healthy -->
+                <div class="bg-white rounded-3xl p-7 shadow-sm border border-plum-800/10 hover:shadow-xl transition reveal-up">
+                    <div class="w-14 h-14 rounded-2xl bg-rose-50 text-roseAccent flex items-center justify-center mb-5">
+                        <svg class="w-8 h-8" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 18C6 23.5228 10.4772 28 16 28C21.5228 28 26 23.5228 26 18H6Z"/>
+                            <path d="M11 12C11 9 13 9 13 6M16 12C16 9 18 9 18 6M21 12C21 9 23 9 23 6" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-plum-950">100% Homemade Kitchen</h3>
+                    <p class="text-sm text-plum-900/70 mt-2 leading-relaxed">
+                        Freshly prepared on order by our all-women culinary team—from Karupatti Coffee and Ragi Kozhukattai to loaded sandwiches & brownies.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Animated KPI Counters Strip -->
+            <div id="kpi-strip" class="mt-10 bg-plum-900 text-cream-50 rounded-3xl p-6 sm:p-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center shadow-lg reveal-up">
+                <div>
+                    <div class="text-3xl sm:text-4xl font-serif font-extrabold text-goldAccent kpi-number" data-target="25">0</div>
+                    <div class="text-xs uppercase tracking-wider text-cream-200/80 mt-1">Homemade Menu Items</div>
+                </div>
+                <div>
+                    <div class="text-3xl sm:text-4xl font-serif font-extrabold text-roseAccent kpi-number" data-target="100">0</div>
+                    <div class="text-xs uppercase tracking-wider text-cream-200/80 mt-1">% Women-Led Operations</div>
+                </div>
+                <div>
+                    <div class="text-3xl sm:text-4xl font-serif font-extrabold text-emerald-300 kpi-number" data-target="15">0</div>
+                    <div class="text-xs uppercase tracking-wider text-cream-200/80 mt-1">% Student ID Discount</div>
+                </div>
+                <div>
+                    <div class="text-3xl sm:text-4xl font-serif font-extrabold text-white kpi-number" data-target="500">0</div>
+                    <div class="text-xs uppercase tracking-wider text-cream-200/80 mt-1">₹ Spend = Free Drink</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 3. ETSY-INSPIRED ARTISAN CAFE MENU WITH STICKERS, KCAL & PRICES ==================== -->
+    <section id="menu" class="py-20 bg-grain">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <!-- Menu Header -->
+            <div class="text-center max-w-2xl mx-auto mb-10 reveal-up">
+                <span class="text-xs font-bold uppercase tracking-widest text-plum-800">Freshly Prepared • Transparent Calories</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-plum-950 mt-2">HNS Artisan Cafe Menu</h2>
+                <p class="text-sm sm:text-base text-plum-900/70 mt-2">
+                    Tap any item to add to your pre-order tray or check nutritional calories (kcal).
+                </p>
+            </div>
+
+            <!-- Interactive Category Filter Tabs -->
+            <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10 reveal-up" id="menu-filters">
+                <button data-cat="all" class="filter-btn active px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-plum-800 text-white shadow-md transition">
+                    All Items
+                </button>
+                <button data-cat="tea-coffee" class="filter-btn px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-white text-plum-900 border border-plum-800/15 hover:bg-plum-100 transition">
+                    ☕ Tea & Coffee
+                </button>
+                <button data-cat="juices" class="filter-btn px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-white text-plum-900 border border-plum-800/15 hover:bg-plum-100 transition">
+                    🥤 Fresh Juices & Shakes
+                </button>
+                <button data-cat="snacks" class="filter-btn px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-white text-plum-900 border border-plum-800/15 hover:bg-plum-100 transition">
+                    🥟 Homemade Snacks
+                </button>
+                <button data-cat="specials" class="filter-btn px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-white text-plum-900 border border-plum-800/15 hover:bg-plum-100 transition">
+                    🥪 Cafe Specials & Meals
+                </button>
+            </div>
+
+            <!-- Etsy-Inspired Framed Menu Board -->
+            <div class="bg-cream-100/90 border-2 border-plum-800/20 rounded-[2rem] p-5 sm:p-8 md:p-10 shadow-xl relative">
+                <!-- Decorative Corner Flourishes -->
+                <div class="flex items-center justify-between border-b border-dashed border-plum-800/25 pb-4 mb-6">
+                    <div>
+                        <span class="font-serif italic text-plum-800 text-lg sm:text-xl font-semibold">Handcrafted Daily in Kadayanallur</span>
+                    </div>
+                    <span class="text-xs font-bold bg-plum-800 text-cream-50 px-3 py-1 rounded-full">100% Hygienic & Fresh</span>
+                </div>
+
+                <!-- Menu Grid Container (Populated by JS with Custom SVG Stickers, Kcal & Prices) -->
+                <div id="menu-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+                    <!-- Dynamic Menu Cards Rendered Here -->
+                </div>
+
+                <!-- Selected Pre-Order Tray Summary Bar -->
+                <div id="tray-bar" class="hidden mt-8 bg-plum-900 text-white rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
+                    <div class="flex items-center gap-3">
+                        <span class="w-10 h-10 rounded-full bg-goldAccent text-plum-950 font-bold flex items-center justify-center" id="tray-count">0</span>
+                        <div>
+                            <div class="font-semibold text-sm sm:text-base">Items in Your Pre-Order / Couch Tray</div>
+                            <div class="text-xs text-cream-200">Total: <span id="tray-total" class="font-bold text-goldAccent">₹0</span> • Total Energy: <span id="tray-kcal">0 kcal</span></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <button onclick="clearTray()" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-xs font-semibold transition">Clear</button>
+                        <button onclick="openBookingModal('table')" class="flex-1 sm:flex-initial px-5 py-2.5 rounded-full bg-goldAccent hover:bg-amber-400 text-plum-950 text-xs sm:text-sm font-bold transition">
+                            Send with Booking →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 4. OFFERS, WORKSHOPS & INTERACTIVE LOYALTY CALCULATOR ==================== -->
+    <section id="offers" class="py-20 bg-plum-950 text-cream-50 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+            <div class="text-center max-w-2xl mx-auto mb-14 reveal-up">
+                <span class="text-xs font-bold uppercase tracking-widest text-goldAccent">Exclusive Perks & Rewards</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold mt-2">Special Offers & HNS Digital Points</h2>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+                <!-- Left 7 Cols: Promo Cards -->
+                <div class="lg:col-span-7 grid sm:grid-cols-2 gap-5">
+                    <!-- Offer 1 -->
+                    <div class="bg-white/5 border border-white/10 rounded-3xl p-6 hover:bg-white/10 transition reveal-up">
+                        <span class="inline-block px-3 py-1 rounded-full bg-roseAccent/20 text-roseAccent text-xs font-bold mb-3">3:00 PM – 5:00 PM</span>
+                        <h3 class="font-serif text-xl font-bold">College ID Happy Hours</h3>
+                        <p class="text-sm text-cream-200/80 mt-2">Show your student ID card for a flat <strong>15% OFF</strong> or get <strong>1 Bajji/Cutlet FREE</strong> with any Tea or Fresh Juice.</p>
+                    </div>
+
+                    <!-- Offer 2 -->
+                    <div class="bg-white/5 border border-white/10 rounded-3xl p-6 hover:bg-white/10 transition reveal-up">
+                        <span class="inline-block px-3 py-1 rounded-full bg-goldAccent/20 text-goldAccent text-xs font-bold mb-3">Group of 5 Women</span>
+                        <h3 class="font-serif text-xl font-bold">₹999 Birthday / Kitty Pack</h3>
+                        <p class="text-sm text-cream-200/80 mt-2">1-hour reserved privacy couch, 5 signature drinks, 2 snack platters & cute balloon table decor.</p>
+                    </div>
+
+                    <!-- Offer 3 -->
+                    <div class="bg-white/5 border border-white/10 rounded-3xl p-6 hover:bg-white/10 transition reveal-up">
+                        <span class="inline-block px-3 py-1 rounded-full bg-emerald-400/20 text-emerald-300 text-xs font-bold mb-3">Every Wednesday</span>
+                        <h3 class="font-serif text-xl font-bold">Mother & Daughter Day</h3>
+                        <p class="text-sm text-cream-200/80 mt-2">Mothers accompanying their daughters enjoy a <strong>complimentary Filter Coffee or Ginger Tea</strong>.</p>
+                    </div>
+
+                    <!-- Offer 4 -->
+                    <div class="bg-white/5 border border-white/10 rounded-3xl p-6 hover:bg-white/10 transition reveal-up">
+                        <span class="inline-block px-3 py-1 rounded-full bg-purple-400/20 text-purple-300 text-xs font-bold mb-3">Weekends • ₹199</span>
+                        <h3 class="font-serif text-xl font-bold">Women's Skill Workshops</h3>
+                        <p class="text-sm text-cream-200/80 mt-2">1-hour Mehndi, Saree Draping, Baking & Resin Art sessions led by Kadayanallur women entrepreneurs (includes snack & drink).</p>
+                    </div>
+                </div>
+
+                <!-- Right 5 Cols: Interactive Digital Bonus Point Calculator -->
+                <div class="lg:col-span-5 bg-gradient-to-br from-plum-800 to-plum-900 border border-white/15 rounded-3xl p-7 flex flex-col justify-between shadow-2xl reveal-up">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-bold uppercase tracking-wider text-goldAccent">Digital Bonus Point Club</span>
+                            <span class="px-2.5 py-1 rounded-full bg-white/10 text-[11px]">₹10 = 1 Point</span>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold">Check Your Free Rewards</h3>
+                        <p class="text-xs text-cream-200/80 mt-1">Slide to see what you unlock using just your phone number at billing.</p>
+
+                        <div class="mt-6">
+                            <div class="flex justify-between text-sm font-semibold mb-2">
+                                <span>Monthly Cafe Spend:</span>
+                                <span class="text-goldAccent text-lg" id="spend-display">₹500</span>
+                            </div>
+                            <input type="range" id="spend-slider" min="100" max="2000" step="50" value="500" class="w-full accent-goldAccent h-2 bg-plum-950 rounded-lg">
+                            <div class="flex justify-between text-[11px] text-cream-200/60 mt-1">
+                                <span>₹100</span>
+                                <span>₹500 (50 Pts)</span>
+                                <span>₹1,000 (100 Pts)</span>
+                                <span>₹2,000</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 bg-plum-950/60 rounded-2xl p-4 border border-white/10">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-cream-200">Earned Bonus Points:</span>
+                                <span class="text-2xl font-serif font-bold text-goldAccent" id="points-display">50 Points</span>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-white/10 text-sm font-medium text-emerald-300" id="reward-unlock-text">
+                                🎉 Unlocked: 1 FREE Karupatti Coffee or Fresh Juice!
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="openBookingModal('loyalty')" class="mt-6 w-full py-3 rounded-full bg-goldAccent hover:bg-amber-400 text-plum-950 font-bold text-sm transition">
+                        Join HNS Women's Loyalty Club
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 5. LOCATION, TIMINGS, SAMPLE QR CODE & CONTACT ==================== -->
+    <section id="visit" class="py-20 bg-cream-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="bg-white rounded-[2rem] border border-plum-800/15 shadow-xl p-6 sm:p-10 md:p-12 reveal-up">
+                <div class="grid lg:grid-cols-12 gap-10 items-center">
+                    <!-- Contact & Timings Info -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-widest text-roseAccent">Visit Us in Tenkasi District</span>
+                            <h2 class="font-serif text-3xl sm:text-4xl font-bold text-plum-950 mt-1">Find HNS Cafe, Kadayanallur</h2>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-4 text-sm">
+                            <!-- Location -->
+                            <div class="p-4 rounded-2xl bg-cream-100/70 border border-plum-800/10">
+                                <div class="font-bold text-plum-900 flex items-center gap-2">
+                                    <span>📍 Location</span>
+                                </div>
+                                <p class="text-plum-900/75 mt-1">First Floor, Near Main Road / Bus Stand, Kadayanallur, Tenkasi Dist., Tamil Nadu 627751</p>
+                            </div>
+
+                            <!-- Open Timings -->
+                            <div class="p-4 rounded-2xl bg-cream-100/70 border border-plum-800/10">
+                                <div class="font-bold text-plum-900 flex items-center gap-2">
+                                    <span>⏰ Shop Open Timings</span>
+                                </div>
+                                <p class="text-plum-900/75 mt-1">Monday – Sunday: <strong>9:00 AM – 9:30 PM</strong><br><span class="text-xs text-roseAccent font-semibold">Student Happy Hours: 3 PM – 5 PM</span></p>
+                            </div>
+
+                            <!-- Phone & Email -->
+                            <div class="p-4 rounded-2xl bg-cream-100/70 border border-plum-800/10">
+                                <div class="font-bold text-plum-900">📞 Contact & WhatsApp</div>
+                                <p class="text-plum-900/75 mt-1">
+                                    <a href="tel:+910000000000" class="hover:text-plum-800 underline">+91 xxxxx xxxxx</a><br>
+                                    <a href="mailto:mail@sample.com" class="hover:text-plum-800 underline">mail@sample.com</a>
+                                </p>
+                            </div>
+
+                            <!-- Entry Policy -->
+                            <div class="p-4 rounded-2xl bg-plum-100/80 border border-plum-800/15">
+                                <div class="font-bold text-plum-900">🛡️ Entry Policy</div>
+                                <p class="text-plum-900/80 mt-1 text-xs leading-relaxed">
+                                    <strong>Dine-In:</strong> Strictly Women & Girls Only.<br>
+                                    <strong>Takeaway Counter:</strong> Open to All Guests.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Online Booking Mode Web Hyperlinks -->
+                        <div class="pt-2">
+                            <div class="text-xs font-bold uppercase tracking-wider text-plum-900/60 mb-3">Quick Online Booking & Direct Web Links:</div>
+                            <div class="flex flex-wrap gap-3">
+                                <a href="#book-couch" onclick="event.preventDefault(); openBookingModal('table')" class="px-5 py-2.5 rounded-full bg-plum-800 text-white text-xs sm:text-sm font-semibold hover:bg-plum-900 transition">
+                                    🔗 Book Privacy Couch Online
+                                </a>
+                                <a href="#book-party" onclick="event.preventDefault(); openBookingModal('party')" class="px-5 py-2.5 rounded-full bg-roseAccent text-white text-xs sm:text-sm font-semibold hover:opacity-90 transition">
+                                    🔗 Book ₹999 Birthday Pack
+                                </a>
+                                <a href="#order-takeaway" onclick="event.preventDefault(); openBookingModal('takeaway')" class="px-5 py-2.5 rounded-full bg-cream-200 text-plum-950 text-xs sm:text-sm font-semibold hover:bg-cream-300 transition">
+                                    🔗 Pre-Order Takeaway
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sample QR Code Card -->
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="bg-gradient-to-b from-cream-100 to-plum-100 border-2 border-dashed border-plum-800/30 rounded-3xl p-6 text-center max-w-xs w-full shadow-inner">
+                            <span class="text-[11px] font-bold uppercase tracking-widest text-plum-800">Scan at Table or Gate</span>
+                            <h3 class="font-serif text-xl font-bold text-plum-950 mt-1">HNS Digital Menu & QR</h3>
+                            
+                            <!-- Crisp Custom SVG Sample QR Code -->
+                            <div class="my-4 bg-white p-4 rounded-2xl shadow-sm inline-block border border-plum-800/10">
+                                <svg class="w-40 h-40" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="120" height="120" rx="8" fill="#FFFFFF"/>
+                                    <!-- Top-Left Finder -->
+                                    <rect x="10" y="10" width="30" height="30" rx="4" stroke="#5D2E46" stroke-width="4"/>
+                                    <rect x="18" y="18" width="14" height="14" rx="2" fill="#5D2E46"/>
+                                    <!-- Top-Right Finder -->
+                                    <rect x="80" y="10" width="30" height="30" rx="4" stroke="#5D2E46" stroke-width="4"/>
+                                    <rect x="88" y="18" width="14" height="14" rx="2" fill="#5D2E46"/>
+                                    <!-- Bottom-Left Finder -->
+                                    <rect x="10" y="80" width="30" height="30" rx="4" stroke="#5D2E46" stroke-width="4"/>
+                                    <rect x="18" y="88" width="14" height="14" rx="2" fill="#5D2E46"/>
+                                    <!-- QR Data Pattern -->
+                                    <rect x="48" y="12" width="8" height="8" rx="1.5" fill="#5D2E46"/>
+                                    <rect x="62" y="12" width="8" height="16" rx="1.5" fill="#C96E83"/>
+                                    <rect x="48" y="28" width="8" height="12" rx="1.5" fill="#5D2E46"/>
+                                    <rect x="12" y="48" width="14" height="8" rx="1.5" fill="#5D2E46"/>
+                                    <rect x="32" y="48" width="8" height="22" rx="1.5" fill="#C96E83"/>
+                                    <rect x="12" y="62" width="14" height="8" rx="1.5" fill="#D4A359"/>
+                                    <!-- Center Logo Badge -->
+                                    <rect x="46" y="46" width="28" height="28" rx="6" fill="#5D2E46"/>
+                                    <text x="60" y="64" text-anchor="middle" fill="#FFFDFB" font-family="serif" font-weight="bold" font-size="11">HNS</text>
+                                    <!-- Right & Bottom Data -->
+                                    <rect x="82" y="48" width="12" height="8" rx="1.5" fill="#5D2E46"/>
+                                    <rect x="100" y="48" width="8" height="20" rx="1.5" fill="#D4A359"/>
+                                    <rect x="82" y="64" width="12" height="10" rx="1.5" fill="#C96E83"/>
+                                    <rect x="48" y="82" width="10" height="12" rx="1.5" fill="#5D2E46"/>
+                                    <rect x="64" y="82" width="16" height="8" rx="1.5" fill="#C96E83"/>
+                                    <rect x="86" y="82" width="22" height="10" rx="1.5" fill="#5D2E46"/>
+                                    <rect x="48" y="100" width="24" height="8" rx="1.5" fill="#D4A359"/>
+                                    <rect x="80" y="98" width="12" height="10" rx="1.5" fill="#5D2E46"/>
+                                    <rect x="98" y="98" width="10" height="10" rx="1.5" fill="#C96E83"/>
+                                </svg>
+                            </div>
+
+                            <p class="text-xs text-plum-900/75">Scan to view menu, earn loyalty points, or book a privacy couch instantly.</p>
+                            <button onclick="copyCafeLink()" id="copy-link-btn" class="mt-4 w-full py-2.5 rounded-full bg-plum-800 hover:bg-plum-900 text-white text-xs font-semibold transition">
+                                Copy Booking Link
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-plum-950 text-cream-200/70 py-10 border-t border-white/10 text-center text-xs">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="font-serif text-lg font-bold text-white mb-1">HNS CAFE — KADAYANALLUR</div>
+            <p>Women-Led Hospitality • Strictly Women-Only Dine-In Sanctuary • Takeaway Available for All</p>
+            <p class="mt-3 text-cream-200/50">Contact: +91 xxxxx xxxxx | mail@sample.com | Kadayanallur, Tenkasi District</p>
+        </div>
+    </footer>
+
+    <!-- ==================== INTERACTIVE BOOKING MODAL (NO ALERT/CONFIRM) ==================== -->
+    <div id="booking-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-plum-950/70 backdrop-blur-sm p-4">
+        <div class="bg-cream-50 border border-plum-800/20 rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl relative animate-fadeIn">
+            <button onclick="closeBookingModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-cream-200 hover:bg-cream-300 text-plum-950 flex items-center justify-center font-bold">
+                ✕
+            </button>
+
+            <span class="text-[11px] font-bold uppercase tracking-widest text-roseAccent" id="modal-badge">Online Reservation</span>
+            <h3 class="font-serif text-2xl font-bold text-plum-950 mt-1" id="modal-title">Reserve Your Privacy Couch</h3>
+            <p class="text-xs text-plum-900/70 mt-1" id="modal-subtitle">Dine-in is strictly for women & girls. Takeaway is open to everyone.</p>
+
+            <form id="booking-form" onsubmit="submitBooking(event)" class="mt-5 space-y-3.5 text-sm">
+                <div>
+                    <label class="block text-xs font-bold text-plum-900 mb-1">Booking Mode</label>
+                    <select id="booking-mode" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-plum-800/20 text-plum-950 focus:outline-none focus:border-plum-800">
+                        <option value="table">Women-Only Privacy Couch (Dine-In)</option>
+                        <option value="party">₹999 Birthday / Kitty Party Pack (5 Women)</option>
+                        <option value="takeaway">Takeaway Window Pickup (Open to All)</option>
+                        <option value="loyalty">Digital Bonus Point Club Registration</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-plum-900 mb-1">Your Name</label>
+                        <input type="text" id="guest-name" required placeholder="e.g., Priya / Anitha" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-plum-800/20 focus:outline-none focus:border-plum-800">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-plum-900 mb-1">WhatsApp Number</label>
+                        <input type="tel" id="guest-phone" required placeholder="+91 xxxxx xxxxx" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-plum-800/20 focus:outline-none focus:border-plum-800">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-plum-900 mb-1">Preferred Time</label>
+                        <input type="time" id="guest-time" value="16:30" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-plum-800/20 focus:outline-none focus:border-plum-800">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-plum-900 mb-1">Guests Count</label>
+                        <select id="guest-count" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-plum-800/20 focus:outline-none focus:border-plum-800">
+                            <option value="1">1 Guest (Solo Chill)</option>
+                            <option value="2" selected>2 Guests</option>
+                            <option value="4">3–4 Guests (Booth)</option>
+                            <option value="5+">5+ Guests (Party)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="modal-tray-summary" class="hidden p-3 rounded-xl bg-plum-100 text-xs text-plum-900">
+                    <!-- Shows pre-selected menu items if any -->
+                </div>
+
+                <button type="submit" class="w-full py-3 rounded-full bg-plum-800 hover:bg-plum-900 text-white font-bold text-sm shadow-lg transition">
+                    Confirm Instant Booking
+                </button>
+            </form>
+
+            <!-- Confirmation Message Box -->
+            <div id="booking-confirmation" class="hidden mt-4 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-950 text-center space-y-2">
+                <div class="text-2xl">✨☕</div>
+                <div class="font-serif font-bold text-lg">Booking Request Confirmed!</div>
+                <p class="text-xs leading-relaxed" id="confirmation-details"></p>
+                <button onclick="closeBookingModal()" class="mt-2 px-5 py-2 rounded-full bg-emerald-700 text-white text-xs font-semibold">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Menu Stickers, Custom Cursor, Apple Scroll Motion & Interactive Loyalty -->
+    <script>
+        // 1. Menu Data with Custom Inline SVG Stickers, Kcal & Prices
+        const menuItems = [
+            {
+                id: 1,
+                name: "Karupatti Filter Coffee",
+                tamil: "கருப்பட்டி காபி",
+                category: "tea-coffee",
+                price: 35,
+                kcal: 85,
+                tag: "Bestseller",
+                stickerBg: "#F3E5D8",
+                svg: `<svg viewBox="0 0 48 48" fill="none"><path d="M12 18H34V27C34 33 29 38 23 38C17 38 12 33 12 27V18Z" fill="#5D2E46"/><path d="M34 21H37C39 21 40.5 22.5 40.5 24.5C40.5 26.5 39 28 37 28H34" stroke="#5D2E46" stroke-width="2.5"/><ellipse cx="23" cy="18" rx="11" ry="2.5" fill="#A46236"/><path d="M19 12C19 9 21 9 21 6M25 12C25 9 27 9 27 6" stroke="#D4A359" stroke-width="2" stroke-linecap="round"/></svg>`
+            },
+            {
+                id: 2,
+                name: "Ginger & Elaichi Dum Tea",
+                tamil: "இஞ்சி ஏலக்காய் டீ",
+                category: "tea-coffee",
+                price: 25,
+                kcal: 70,
+                tag: "Daily Fav",
+                stickerBg: "#FCECD8",
+                svg: `<svg viewBox="0 0 48 48" fill="none"><path d="M14 16H34L31 37H17L14 16Z" fill="#D4A359"/><ellipse cx="24" cy="16" rx="10" ry="2.5" fill="#8C4A27"/><circle cx="24" cy="26" r="4" fill="#FFFDFB" opacity="0.6"/></svg>`
+            },
+            {
+                id: 3,
+                name: "Chilled Rose & Badam Milk",
+                tamil: "ரோஸ் & பாதாம் பால்",
+                category: "tea-coffee",
+                price: 70,
+                kcal: 190,
+                tag: "Cooling",
+                stickerBg: "#FCE4EC",
+                svg: `<svg viewBox="0 0 48 48" fill="none"><rect x="16" y="13" width="16" height="26" rx="4" fill="#F48FB1"/><path d="M26 13L31 6" stroke="#5D2E46" stroke-width="2.5" stroke-linecap="round"/><circle cx="21" cy="22" r="2" fill="#FFF"/><circle cx="26" cy="29" r="2" fill="#FFF"/></svg>`
+            },
+            {
+                id: 4,
+                name: "Fresh Pomegranate Juice",
+                tamil: "மாதுளை ஜூஸ்",
+                category: "juices",
+                price: 75,
+                kcal: 135,
+                tag: "Iron Rich",
+                stickerBg: "#FFEBEE",
+                svg: `<svg viewBox="0 0 48 48" fill="none"><path d="M15 14H33L30 38H18L15 14Z" fill="#E53935"/><circle cx="24" cy="14" r="5" fill="#B71C1C"/><path d="M24 9L21 6M24 9L27 6" stroke="#2E7D32" stroke-width="2" stroke-linecap="round"/></svg>`
+            },
+            {
+                id: 5,
+                name: "Lemon Mint Cooler",
+                tamil: "லெமன் மின்ட் கூலர்",
+                category: "juices",
+                price: 45,
+                kcal: 65,
+                tag: "Refreshing",
+                stickerBg: "#E8F5E9",
+                svg: `<svg viewBox="0 0 48 48" fill="none"><path d="M15 14H33L30 38H18L15 14Z" fill="#A5D6A7"/><circle cx="31" cy="14" r="6" fill="#FDD835"/><path d="M21 22C23 19 26 20 26 23C23 24 21 22 21 22Z" fill="#2E7D32"/></svg>`
+            },
+            {
+                id: 6,
+                name: "Belgian Oreo Milkshake",
+                tamil: "ஓரியோ மில்க்ஷேக்",
+                category: "juices",
+                price: 99,
+                kcal: 340,
+                tag: "Indulgent",
+                stickerBg: "#EDE7F6",
+                svg: `<svg viewBox="0 0 48 48" fill="none"><path d="M15 17H33L30 39H18L15 17Z" fill="#6D4C41"/><path d="M14 17C14 12 34 12 34 17H14Z" fill="#FFFDFB"/><circle cx="29" cy="13" r="5" fill="#212121"/></svg>`
+            },
+            {
+                id: 7,
+                name: "Ragi Millet Kozhukattai (4 pcs)",
+                tamil: "ராகி கொழுக்கட்டை",
+                category: "snacks",
+                price: 45,
+                kcal: 180,
+                tag: "Homemade",
+                stickerBg: "#EFEBE9",
+                svg: `<svg viewBox="0 0 48 48" fill="none"><ellipse cx="24" cy="34" rx="15" ry="4" fill="#A5D6A7"/><path d="M14 31C14 24 20 21 20 21C20 21 24 25 24 31H14Z" fill="#6D4C41"/><path d="M24 31C24 24 30 21 30 21C30 21 34 25 34 31H24Z" fill="#5D4037"/></svg>`
+            },
+            {
+                id: 8,
+                name: "Kerala Pazham Pori (2 pcs)",
+                tamil: "பழம் பொரி",
+                category: "snacks",
+                price: 35,
+                kcal: 210,
+                tag: "Evening Hit",
+                stickerBg: "#FFF8E1",
+                svg: `<svg viewBox="0 0 48 48" fill="none"><path d="M12 30C15 18 28 14 36 18C33 28 22 34 12 30Z" fill="#FBC02D" stroke="#E65100" stroke-width="2"/><path d="M16 27C19 20 27 18 32 20" stroke="#FFF9C4" stroke-width="2" stroke-linecap="round"/></svg>`
+            },
+            {
+                id: 9,
+                name: "Crispy Veg Cutlet (2 pcs)",
+                tamil: "வெஜ் கட்லெட்",
+                category: "snacks",
+                price: 50,
+                kcal: 230,
+                tag: "Crunchy",
+                stickerBg: "#FBE9E7",
+                svg: `<svg viewBox="0 0 48 48" fill="none"><ellipse cx="21" cy="27" rx="10" ry="7" fill="#D84315"/><ellipse cx="29" cy="23" rx="9" ry="6" fill="#FF7043"/><circle cx="20" cy="26" r="1" fill="#FFF"/><circle cx="28" cy="22" r="1" fill="#FFF"/></svg>`
+            },
+            {
+                id: 10,
+                name: "Paneer Tikka Cheese Sandwich",
+                tamil: "பன்னீர் சீஸ் சாண்ட்விச்",
+                category: "specials",
+                price: 89,
+                kcal: 360,
+                tag: "Chef Special",
+                stickerBg: "#FFF3E0",
+                svg: `<svg viewBox="0 0 48 48" fill="none"><polygon points="10,32 24,14 38,32" fill="#F57C00"/><polygon points="13,30 24,17 35,30" fill="#FFE082"/><rect x="14" y="27" width="20" height="3" fill="#43A047"/></svg>`
+            },
+            {
+                id: 11,
+                name: "Warm Brownie with Ice Cream",
+                tamil: "பிரவுனி & ஐஸ்கிரீம்",
+                category: "specials",
+                price: 110,
+                kcal: 420,
+                tag: "Celebration",
+                stickerBg: "#F3E5F5",
+                svg: `<svg viewBox="0 0 48 48" fill="none"><rect x="12" y="24" width="24" height="12" rx="3" fill="#4E342E"/><circle cx="24" cy="20" r="7" fill="#FFFDFB"/><path d="M20 17C22 19 26 19 28 17" stroke="#C96E83" stroke-width="2" stroke-linecap="round"/></svg>`
+            },
+            {
+                id: 12,
+                name: "Homemade Curd / Sambar Meal Box",
+                tamil: "வீட்டுமுறை மதிய உணவு",
+                category: "specials",
+                price: 70,
+                kcal: 450,
+                tag: "Pre-Order",
+                stickerBg: "#E0F2F1",
+                svg: `<svg viewBox="0 0 48 48" fill="none"><path d="M10 22H38C38 31 32 37 24 37C16 37 10 31 10 22Z" fill="#00897B"/><path d="M13 22C13 16 35 16 35 22H13Z" fill="#FFFDFB"/><circle cx="24" cy="18" r="2" fill="#E53935"/></svg>`
+            }
+        ];
+
+        let tray = [];
+
+        function renderMenu(filter = 'all') {
+            const grid = document.getElementById('menu-grid');
+            const filtered = filter === 'all' ? menuItems : menuItems.filter(item => item.category === filter);
+
+            grid.innerHTML = filtered.map(item => `
+                <div class="bg-white rounded-2xl p-4 border border-plum-800/10 hover:border-plum-800/35 hover:shadow-md transition flex items-center justify-between gap-3 group">
+                    <div class="flex items-center gap-3.5">
+                        <!-- Custom Food Sticker -->
+                        <div class="w-16 h-16 rounded-2xl flex-shrink-0 flex items-center justify-center p-2 shadow-inner group-hover:scale-105 transition" style="background-color: ${item.stickerBg};">
+                            ${item.svg}
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-1.5 flex-wrap">
+                                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-plum-100 text-plum-800">${item.tag}</span>
+                                <span class="text-[11px] font-semibold text-plum-900/55">• ${item.kcal} kcal</span>
+                            </div>
+                            <h3 class="font-serif font-bold text-base text-plum-950 mt-1 leading-snug">${item.name}</h3>
+                            <p class="text-xs text-plum-900/60">${item.tamil}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col items-end justify-between h-full gap-2">
+                        <span class="font-serif font-extrabold text-lg text-plum-800">₹${item.price}</span>
+                        <button onclick="addToTray(${item.id})" class="px-3 py-1.5 rounded-full bg-cream-100 hover:bg-plum-800 text-plum-900 hover:text-white text-xs font-bold border border-plum-800/15 transition">
+                            + Add
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Category Filter Clicks
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('bg-plum-800', 'text-white', 'shadow-md');
+                    b.classList.add('bg-white', 'text-plum-900');
+                });
+                btn.classList.remove('bg-white', 'text-plum-900');
+                btn.classList.add('bg-plum-800', 'text-white', 'shadow-md');
+                renderMenu(btn.dataset.cat);
+            });
+        });
+
+        // Pre-order Tray Logic
+        function addToTray(id) {
+            const item = menuItems.find(m => m.id === id);
+            if (!item) return;
+            tray.push(item);
+            updateTrayUI();
+        }
+
+        function clearTray() {
+            tray = [];
+            updateTrayUI();
+        }
+
+        function updateTrayUI() {
+            const bar = document.getElementById('tray-bar');
+            if (tray.length === 0) {
+                bar.classList.add('hidden');
+                return;
+            }
+            bar.classList.remove('hidden');
+            const totalRupees = tray.reduce((sum, i) => sum + i.price, 0);
+            const totalKcal = tray.reduce((sum, i) => sum + i.kcal, 0);
+            document.getElementById('tray-count').textContent = tray.length;
+            document.getElementById('tray-total').textContent = `₹${totalRupees}`;
+            document.getElementById('tray-kcal').textContent = `${totalKcal} kcal`;
+        }
+
+        // 2. Custom Coffee Cup Pointer Tracking
+        const cursor = document.getElementById('coffee-cursor');
+        if (cursor) {
+            window.addEventListener('mousemove', (e) => {
+                cursor.style.left = `${e.clientX}px`;
+                cursor.style.top = `${e.clientY}px`;
+            });
+
+            window.addEventListener('mousedown', () => cursor.classList.add('cursor-click'));
+            window.addEventListener('mouseup', () => cursor.classList.remove('cursor-click'));
+
+            document.addEventListener('mouseover', (e) => {
+                if (e.target.closest('a, button, input, select')) {
+                    cursor.classList.add('cursor-hover');
+                } else {
+                    cursor.classList.remove('cursor-hover');
+                }
+            });
+        }
+
+        // 3. Apple-Style Scroll Reveal & Hero Scale Motion
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.reveal-up').forEach(el => revealObserver.observe(el));
+
+        // Subtle Hero Showcase Scroll Zoom Effect
+        const heroShowcase = document.getElementById('hero-showcase');
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            if (heroShowcase && scrollY < 700) {
+                const scale = Math.min(1.03, 0.96 + (scrollY / 700) * 0.07);
+                heroShowcase.style.transform = `scale(${scale})`;
+            }
+        }, { passive: true });
+
+        // 4. Animated KPI Counters on Scroll
+        let kpiAnimated = false;
+        const kpiObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !kpiAnimated) {
+                kpiAnimated = true;
+                document.querySelectorAll('.kpi-number').forEach(counter => {
+                    const target = parseInt(counter.dataset.target, 10);
+                    let current = 0;
+                    const step = Math.max(1, Math.ceil(target / 40));
+                    const timer = setInterval(() => {
+                        current += step;
+                        if (current >= target) {
+                            counter.textContent = target;
+                            clearInterval(timer);
+                        } else {
+                            counter.textContent = current;
+                        }
+                    }, 30);
+                });
+            }
+        }, { threshold: 0.3 });
+        const kpiStrip = document.getElementById('kpi-strip');
+        if (kpiStrip) kpiObserver.observe(kpiStrip);
+
+        // 5. Interactive Digital Loyalty Calculator
+        const spendSlider = document.getElementById('spend-slider');
+        const spendDisplay = document.getElementById('spend-display');
+        const pointsDisplay = document.getElementById('points-display');
+        const rewardUnlockText = document.getElementById('reward-unlock-text');
+
+        if (spendSlider) {
+            spendSlider.addEventListener('input', (e) => {
+                const spend = parseInt(e.target.value, 10);
+                const pts = Math.floor(spend / 10);
+                spendDisplay.textContent = `₹${spend}`;
+                pointsDisplay.textContent = `${pts} Points`;
+
+                if (pts >= 100) {
+                    rewardUnlockText.textContent = "👑 Unlocked: FREE Sandwich or Brownie + ₹100 Birthday Voucher!";
+                } else if (pts >= 50) {
+                    rewardUnlockText.textContent = "🎉 Unlocked: 1 FREE Karupatti Coffee or Fresh Juice!";
+                } else {
+                    rewardUnlockText.textContent = `✨ Earn ${50 - pts} more points to unlock your first FREE drink!`;
+                }
+            });
+        }
+
+        // 6. Online Booking Modal Controls
+        const modal = document.getElementById('booking-modal');
+        const bookingForm = document.getElementById('booking-form');
+        const confirmationBox = document.getElementById('booking-confirmation');
+
+        function openBookingModal(mode = 'table') {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            bookingForm.classList.remove('hidden');
+            confirmationBox.classList.add('hidden');
+            document.getElementById('booking-mode').value = mode;
+
+            const traySummary = document.getElementById('modal-tray-summary');
+            if (tray.length > 0) {
+                const total = tray.reduce((s, i) => s + i.price, 0);
+                traySummary.classList.remove('hidden');
+                traySummary.innerHTML = `<strong>Pre-selected Items (${tray.length}):</strong> ${tray.map(i => i.name).join(', ')} — <strong>Total: ₹${total}</strong>`;
+            } else {
+                traySummary.classList.add('hidden');
+            }
+        }
+
+        function closeBookingModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function submitBooking(e) {
+            e.preventDefault();
+            const name = document.getElementById('guest-name').value;
+            const phone = document.getElementById('guest-phone').value;
+            const time = document.getElementById('guest-time').value;
+            const modeText = document.getElementById('booking-mode').selectedOptions[0].text;
+
+            bookingForm.classList.add('hidden');
+            confirmationBox.classList.remove('hidden');
+            document.getElementById('confirmation-details').innerHTML = `
+                Thank you, <strong>${name}</strong>!<br>
+                Your request for <strong>${modeText}</strong> at <strong>${time}</strong> (Kadayanallur) is logged.<br>
+                Confirmation & Loyalty ID sent to <strong>${phone}</strong>.
+            `;
+        }
+
+        // Clipboard Copy Helper
+        function copyCafeLink() {
+            const tempInput = document.createElement('input');
+            tempInput.value = 'https://hnscafe-kadayanallur.sample/book';
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            const btn = document.getElementById('copy-link-btn');
+            btn.textContent = '✓ Link Copied!';
+            setTimeout(() => { btn.textContent = 'Copy Booking Link'; }, 2200);
+        }
+
+        // Initialize Menu on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderMenu('all');
+        });
+    </script>
+</body>
+</html>
